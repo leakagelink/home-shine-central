@@ -132,26 +132,26 @@ function AdminDashboard() {
           <div className="surface mt-3 space-y-3 p-4">
             <div className="grid gap-3 sm:grid-cols-2">
               <input
-                className="field"
+                className="field-shell w-full px-4 py-3 text-sm outline-none"
                 placeholder="Full name"
                 value={partnerForm.fullName}
                 onChange={(e) => setPartnerForm((f) => ({ ...f, fullName: e.target.value }))}
               />
               <input
-                className="field"
+                className="field-shell w-full px-4 py-3 text-sm outline-none"
                 inputMode="numeric"
                 placeholder="Mobile number"
                 value={partnerForm.mobile}
                 onChange={(e) => setPartnerForm((f) => ({ ...f, mobile: e.target.value }))}
               />
               <input
-                className="field"
+                className="field-shell w-full px-4 py-3 text-sm outline-none"
                 placeholder="City"
                 value={partnerForm.city}
                 onChange={(e) => setPartnerForm((f) => ({ ...f, city: e.target.value }))}
               />
               <input
-                className="field"
+                className="field-shell w-full px-4 py-3 text-sm outline-none"
                 inputMode="numeric"
                 placeholder="Temporary PIN"
                 value={partnerForm.temporaryPin}
@@ -164,7 +164,7 @@ function AdminDashboard() {
             </p>
             <button
               type="button"
-              className="btn-primary w-full sm:w-auto"
+              className="rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-50"
               disabled={busy}
               onClick={handleCreatePartner}
             >
