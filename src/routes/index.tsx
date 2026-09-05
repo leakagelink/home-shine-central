@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useRouter, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { Loader2, ShieldCheck, Sparkles, ArrowLeft } from "lucide-react";
@@ -43,6 +43,7 @@ const ROLES: { value: Role; label: string; blurb: string }[] = [
 
 function AuthPage() {
   const navigate = useNavigate();
+  const router = useRouter();
   const [role, setRole] = useState<Role>("customer");
   const [step, setStep] = useState<Step>("role");
   const [mobile, setMobile] = useState("");
@@ -63,7 +64,8 @@ function AuthPage() {
 
   async function finish(tokenHash: string, roles: string[]) {
     await exchangeSessionTicket(tokenHash);
-    navigate({ to: homeForRoles(roles) });
+    await router.invalidate();
+    await navigate({ to: homeForRoles(roles), replace: true });
   }
 
   async function handleSendOtp(nextPurpose: "onboard" | "reset") {
