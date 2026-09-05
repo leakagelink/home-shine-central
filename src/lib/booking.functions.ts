@@ -40,8 +40,9 @@ type Priced = {
 /**
  * Prices are always recomputed from the database. Client-sent amounts are ignored.
  */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 async function priceBooking(
-  supabase: Awaited<ReturnType<typeof requireSupabaseAuth>> extends never ? never : any,
+  supabase: any,
   userId: string,
   input: z.infer<typeof createSchema>,
 ): Promise<Priced> {
