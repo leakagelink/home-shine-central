@@ -12,13 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as SetupRouteImport } from './routes/setup'
-import { Route as ApiTmpAdminBootstrapRouteImport } from './routes/api/tmp-admin-bootstrap'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppAccountRouteImport } from './routes/_authenticated/app.account'
 import { Route as AuthenticatedAppCheckoutRouteImport } from './routes/_authenticated/app.checkout'
 import { Route as AuthenticatedAppNotificationsRouteImport } from './routes/_authenticated/app.notifications'
 import { Route as AuthenticatedPartnerIndexRouteImport } from './routes/_authenticated/partner.index'
+import { Route as ApiPublicTmpAdminBootstrapRouteImport } from './routes/api/public/tmp-admin-bootstrap'
 import { Route as AuthenticatedAppBookCategoryRouteImport } from './routes/_authenticated/app.book.$category'
 import { Route as AuthenticatedAppBookingsIndexRouteImport } from './routes/_authenticated/app.bookings.index'
 import { Route as AuthenticatedAppBookingsIdRouteImport } from './routes/_authenticated/app.bookings.$id'
@@ -35,11 +35,6 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const SetupRoute = SetupRouteImport.update({
   id: '/setup',
   path: '/setup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiTmpAdminBootstrapRoute = ApiTmpAdminBootstrapRouteImport.update({
-  id: '/api/tmp-admin-bootstrap',
-  path: '/api/tmp-admin-bootstrap',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
@@ -75,6 +70,12 @@ const AuthenticatedPartnerIndexRoute =
     path: '/partner/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicTmpAdminBootstrapRoute =
+  ApiPublicTmpAdminBootstrapRouteImport.update({
+    id: '/api/public/tmp-admin-bootstrap',
+    path: '/api/public/tmp-admin-bootstrap',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedAppBookCategoryRoute =
   AuthenticatedAppBookCategoryRouteImport.update({
     id: '/app/book/$category',
@@ -97,10 +98,10 @@ const AuthenticatedAppBookingsIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/setup': typeof SetupRoute
-  '/api/tmp-admin-bootstrap': typeof ApiTmpAdminBootstrapRoute
   '/app/account': typeof AuthenticatedAppAccountRoute
   '/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/app/notifications': typeof AuthenticatedAppNotificationsRoute
+  '/api/public/tmp-admin-bootstrap': typeof ApiPublicTmpAdminBootstrapRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/partner/': typeof AuthenticatedPartnerIndexRoute
@@ -111,10 +112,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/setup': typeof SetupRoute
-  '/api/tmp-admin-bootstrap': typeof ApiTmpAdminBootstrapRoute
   '/app/account': typeof AuthenticatedAppAccountRoute
   '/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/app/notifications': typeof AuthenticatedAppNotificationsRoute
+  '/api/public/tmp-admin-bootstrap': typeof ApiPublicTmpAdminBootstrapRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/partner': typeof AuthenticatedPartnerIndexRoute
@@ -127,10 +128,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/setup': typeof SetupRoute
-  '/api/tmp-admin-bootstrap': typeof ApiTmpAdminBootstrapRoute
   '/_authenticated/app/account': typeof AuthenticatedAppAccountRoute
   '/_authenticated/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/_authenticated/app/notifications': typeof AuthenticatedAppNotificationsRoute
+  '/api/public/tmp-admin-bootstrap': typeof ApiPublicTmpAdminBootstrapRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/partner/': typeof AuthenticatedPartnerIndexRoute
@@ -143,10 +144,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/setup'
-    | '/api/tmp-admin-bootstrap'
     | '/app/account'
     | '/app/checkout'
     | '/app/notifications'
+    | '/api/public/tmp-admin-bootstrap'
     | '/admin/'
     | '/app/'
     | '/partner/'
@@ -157,10 +158,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/setup'
-    | '/api/tmp-admin-bootstrap'
     | '/app/account'
     | '/app/checkout'
     | '/app/notifications'
+    | '/api/public/tmp-admin-bootstrap'
     | '/admin'
     | '/app'
     | '/partner'
@@ -172,10 +173,10 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/setup'
-    | '/api/tmp-admin-bootstrap'
     | '/_authenticated/app/account'
     | '/_authenticated/app/checkout'
     | '/_authenticated/app/notifications'
+    | '/api/public/tmp-admin-bootstrap'
     | '/_authenticated/admin/'
     | '/_authenticated/app/'
     | '/_authenticated/partner/'
@@ -188,7 +189,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SetupRoute: typeof SetupRoute
-  ApiTmpAdminBootstrapRoute: typeof ApiTmpAdminBootstrapRoute
+  ApiPublicTmpAdminBootstrapRoute: typeof ApiPublicTmpAdminBootstrapRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,13 +213,6 @@ declare module '@tanstack/react-router' {
       path: '/setup'
       fullPath: '/setup'
       preLoaderRoute: typeof SetupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/tmp-admin-bootstrap': {
-      id: '/api/tmp-admin-bootstrap'
-      path: '/api/tmp-admin-bootstrap'
-      fullPath: '/api/tmp-admin-bootstrap'
-      preLoaderRoute: typeof ApiTmpAdminBootstrapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
@@ -262,6 +256,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/partner/'
       preLoaderRoute: typeof AuthenticatedPartnerIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/public/tmp-admin-bootstrap': {
+      id: '/api/public/tmp-admin-bootstrap'
+      path: '/api/public/tmp-admin-bootstrap'
+      fullPath: '/api/public/tmp-admin-bootstrap'
+      preLoaderRoute: typeof ApiPublicTmpAdminBootstrapRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/app/book/$category': {
       id: '/_authenticated/app/book/$category'
@@ -318,7 +319,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SetupRoute: SetupRoute,
-  ApiTmpAdminBootstrapRoute: ApiTmpAdminBootstrapRoute,
+  ApiPublicTmpAdminBootstrapRoute: ApiPublicTmpAdminBootstrapRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
