@@ -195,7 +195,9 @@ function Checkout() {
               <button
                 type="button"
                 onClick={saveAddress}
-                disabled={!form.house_no || !form.area || !form.city || !form.state || !form.pincode}
+                disabled={
+                  !form.house_no || !form.area || !form.city || !form.state || !form.pincode
+                }
                 className="w-full rounded-xl bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground disabled:opacity-50"
               >
                 Save address
@@ -245,7 +247,9 @@ function Checkout() {
                   type="button"
                   onClick={() => setSlot({ start: s.start, end: s.end })}
                   className={`rounded-xl border px-3 py-2.5 text-xs font-semibold ${
-                    active ? "border-primary bg-secondary text-secondary-foreground" : "border-border"
+                    active
+                      ? "border-primary bg-secondary text-secondary-foreground"
+                      : "border-border"
                   }`}
                 >
                   {timeLabel(s.start)} – {timeLabel(s.end)}
@@ -348,7 +352,8 @@ function Checkout() {
             onClick={confirm}
             className="flex items-center gap-2 rounded-2xl bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"
           >
-            {busy && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />} Confirm booking
+            {busy && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />} Confirm
+            booking
           </button>
         </div>
       </div>

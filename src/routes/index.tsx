@@ -1,15 +1,11 @@
 import { createFileRoute, useNavigate, useRouter, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Loader2, ShieldCheck, Sparkles, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 
-import {
-  requestOtp,
-  verifyOtp,
-  completePinSetup,
-  loginWithPin,
-} from "@/lib/auth.functions";
+import { requestOtp, verifyOtp, completePinSetup, loginWithPin } from "@/lib/auth.functions";
 import { exchangeSessionTicket, homeForRoles } from "@/lib/session";
 
 export const Route = createFileRoute("/")({
@@ -44,6 +40,7 @@ const ROLES: { value: Role; label: string; blurb: string }[] = [
 function AuthPage() {
   const navigate = useNavigate();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [role, setRole] = useState<Role>("customer");
   const [step, setStep] = useState<Step>("role");
   const [mobile, setMobile] = useState("");
@@ -64,6 +61,7 @@ function AuthPage() {
 
   async function finish(tokenHash: string, roles: string[]) {
     await exchangeSessionTicket(tokenHash);
+    await queryClient.invalidateQueries({ queryKey: ["session-user"] });
     await router.invalidate();
     await navigate({ to: homeForRoles(roles), replace: true });
   }
@@ -198,7 +196,10 @@ function AuthPage() {
               <h2 className="text-base font-semibold">
                 {ROLES.find((r) => r.value === role)?.label} sign in
               </h2>
-              <label className="mt-4 block text-xs font-semibold text-muted-foreground" htmlFor="mobile">
+              <label
+                className="mt-4 block text-xs font-semibold text-muted-foreground"
+                htmlFor="mobile"
+              >
                 Mobile number
               </label>
               <div className="field-shell mt-1.5 flex items-center gap-2 px-3 py-3">
@@ -304,7 +305,10 @@ function AuthPage() {
               </h2>
               {purpose === "onboard" && (
                 <>
-                  <label className="mt-4 block text-xs font-semibold text-muted-foreground" htmlFor="name">
+                  <label
+                    className="mt-4 block text-xs font-semibold text-muted-foreground"
+                    htmlFor="name"
+                  >
                     Your name
                   </label>
                   <input
@@ -316,7 +320,10 @@ function AuthPage() {
                   />
                 </>
               )}
-              <label className="mt-4 block text-xs font-semibold text-muted-foreground" htmlFor="newpin">
+              <label
+                className="mt-4 block text-xs font-semibold text-muted-foreground"
+                htmlFor="newpin"
+              >
                 Choose a 4–6 digit PIN
               </label>
               <input
@@ -326,7 +333,10 @@ function AuthPage() {
                 onChange={(e) => setNewPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 className="field-shell mt-1.5 w-full px-4 py-3.5 text-center text-2xl tracking-[0.5em] outline-none"
               />
-              <label className="mt-3 block text-xs font-semibold text-muted-foreground" htmlFor="confirmpin">
+              <label
+                className="mt-3 block text-xs font-semibold text-muted-foreground"
+                htmlFor="confirmpin"
+              >
                 Confirm PIN
               </label>
               <input

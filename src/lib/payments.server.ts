@@ -211,10 +211,7 @@ export async function confirmPaymentFromGateway(payload: Record<string, string>)
     status: "payment_verified",
     note: "Payment verified server-side",
   });
-  await supabaseAdmin
-    .from("bookings")
-    .update({ status: "confirmed" })
-    .eq("id", payment.booking_id);
+  await supabaseAdmin.from("bookings").update({ status: "confirmed" }).eq("id", payment.booking_id);
 
   return { ok: true as const, duplicate: false };
 }

@@ -62,7 +62,10 @@ function AccountPage() {
               </p>
             )}
             {(addresses.data ?? []).map((a) => (
-              <div key={a.id} className="flex items-start justify-between gap-3 rounded-xl border border-border p-3">
+              <div
+                key={a.id}
+                className="flex items-start justify-between gap-3 rounded-xl border border-border p-3"
+              >
                 <span>
                   <span className="block font-semibold">{a.label ?? "Address"}</span>
                   <span className="text-muted-foreground">

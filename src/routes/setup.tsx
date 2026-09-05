@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Loader2, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
@@ -27,6 +27,7 @@ export const Route = createFileRoute("/setup")({
 
 function SetupPage() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const check = useServerFn(adminExists);
   const create = useServerFn(bootstrapAdmin);
   const { data, isLoading } = useQuery({
@@ -45,7 +46,8 @@ function SetupPage() {
         return;
       }
       await exchangeSessionTicket(res.tokenHash);
-      navigate({ to: "/admin" });
+      await queryClient.invalidateQueries({ queryKey: ["session-user"] });
+      navigate({ to: "/admin", replace: true });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Setup failed.");
     } finally {
@@ -87,7 +89,9 @@ function SetupPage() {
               placeholder="PIN"
               inputMode="numeric"
               value={form.pin}
-              onChange={(e) => setForm({ ...form, pin: e.target.value.replace(/\D/g, "").slice(0, 6) })}
+              onChange={(e) =>
+                setForm({ ...form, pin: e.target.value.replace(/\D/g, "").slice(0, 6) })
+              }
               className="field-shell w-full px-4 py-3 text-sm outline-none"
             />
             <input

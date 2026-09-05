@@ -13,7 +13,10 @@ export const Route = createFileRoute("/_authenticated/app/bookings/$id")({
   head: () => ({
     meta: [
       { title: "Booking details — SqueakClean" },
-      { name: "description", content: "Live status, price breakdown and actions for your booking." },
+      {
+        name: "description",
+        content: "Live status, price breakdown and actions for your booking.",
+      },
       { property: "og:title", content: "Booking details — SqueakClean" },
       { property: "og:description", content: "Live status and price breakdown for your booking." },
     ],
@@ -52,8 +55,7 @@ function BookingDetail() {
     data.status,
   );
   const canReview =
-    ["work_completed", "review_pending", "completed"].includes(data.status) &&
-    !data.reviews;
+    ["work_completed", "review_pending", "completed"].includes(data.status) && !data.reviews;
 
   return (
     <div className="min-h-screen bg-background pb-12">
@@ -144,7 +146,12 @@ function BookingDetail() {
             <h2 className="text-sm font-semibold">Rate this cleaning</h2>
             <div className="mt-3 flex gap-1">
               {[1, 2, 3, 4, 5].map((n) => (
-                <button key={n} type="button" onClick={() => setRating(n)} aria-label={`${n} stars`}>
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => setRating(n)}
+                  aria-label={`${n} stars`}
+                >
                   <Star
                     className={`h-7 w-7 ${n <= rating ? "fill-accent text-accent" : "text-muted-foreground"}`}
                     aria-hidden="true"
@@ -176,7 +183,8 @@ function BookingDetail() {
               }}
               className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-50"
             >
-              {busy && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />} Submit rating
+              {busy && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />} Submit
+              rating
             </button>
           </section>
         )}

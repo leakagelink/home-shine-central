@@ -32,8 +32,16 @@ export const Route = createFileRoute("/_authenticated/partner/")({
   component: PartnerDashboard,
 });
 
-const STEPS = ["partner_accepted", "on_the_way", "arrived", "work_started", "work_completed"] as const;
+const STEPS = [
+  "partner_assigned",
+  "partner_accepted",
+  "on_the_way",
+  "arrived",
+  "work_started",
+  "work_completed",
+] as const;
 const STEP_LABEL: Record<string, string> = {
+  partner_accepted: "Accept this job",
   on_the_way: "On the way",
   arrived: "I've arrived",
   work_started: "Start work",
@@ -119,8 +127,8 @@ function PartnerDashboard() {
           </p>
           <h1 className="mt-1 text-2xl font-bold">{user?.fullName ?? "Your jobs"}</h1>
           <p className="mt-1 text-xs text-muted-foreground">
-            Rating {Number(profile.data?.rating ?? 0).toFixed(1)} · {profile.data?.jobs_completed ?? 0}{" "}
-            jobs done
+            Rating {Number(profile.data?.rating ?? 0).toFixed(1)} ·{" "}
+            {profile.data?.jobs_completed ?? 0} jobs done
           </p>
         </div>
         <button
