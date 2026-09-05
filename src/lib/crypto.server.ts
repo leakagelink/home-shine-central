@@ -6,7 +6,8 @@
  * Web Crypto is used so this runs on the edge worker runtime without native deps.
  */
 
-const PBKDF2_ITERATIONS = 210_000;
+// Edge runtime caps PBKDF2 at 100k iterations.
+const PBKDF2_ITERATIONS = 100_000;
 const encoder = new TextEncoder();
 
 function toHex(buffer: ArrayBuffer): string {
