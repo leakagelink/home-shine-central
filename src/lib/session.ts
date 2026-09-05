@@ -17,7 +17,16 @@ export async function exchangeSessionTicket(tokenHash: string) {
     refresh_token: data.session.refresh_token,
   });
 
+  // Wait until the session is readable before the caller navigates into a
+  // protected route, otherwise the route guard sees a signed-out client.
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    const { data: userData } = await supabase.auth.getUser();
+    if (userData.user) return;
+    await new Promise((resolve) => setTimeout(resolve, 150));
+  }
+  throw new Error("Could not start your session. Please try again.");
 }
+
 
 export function homeForRoles(roles: string[]): "/app" | "/partner" | "/admin" {
   if (roles.includes("admin")) return "/admin";
