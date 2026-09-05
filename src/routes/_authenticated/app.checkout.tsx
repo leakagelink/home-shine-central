@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/lib/cart";
 import { createBooking } from "@/lib/booking.functions";
 import { rupees, TIME_SLOTS, dayLabel, nextDates, timeLabel } from "@/lib/format";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/_authenticated/app/checkout")({
   head: () => ({
@@ -44,11 +45,15 @@ function Checkout() {
   const queryClient = useQueryClient();
   const addresses = useQuery(addressesQuery);
   const book = useServerFn(createBooking);
+  const { user } = useAuth();
 
   const dates = nextDates(10);
   const [addressId, setAddressId] = useState<string | null>(null);
   const [date, setDate] = useState(dates[0]!);
-  const [slot, setSlot] = useState(TIME_SLOTS[0]);
+  const [slot, setSlot] = useState<{ start: string; end: string }>({
+    start: TIME_SLOTS[0].start,
+    end: TIME_SLOTS[0].end,
+  });
   const [coupon, setCoupon] = useState("");
   const [notes, setNotes] = useState("");
   const [method, setMethod] = useState<"cash_on_completion" | "online">("cash_on_completion");
@@ -62,7 +67,7 @@ function Checkout() {
   async function saveAddress() {
     const { data, error } = await supabase
       .from("addresses")
-      .insert({ ...form, is_default: list.length === 0 })
+      .insert({ ...form, user_id: user?.id ?? "", is_default: list.length === 0 })
       .select("id")
       .single();
     if (error || !data) {
@@ -238,7 +243,7 @@ function Checkout() {
                 <button
                   key={s.start}
                   type="button"
-                  onClick={() => setSlot(s)}
+                  onClick={() => setSlot({ start: s.start, end: s.end })}
                   className={`rounded-xl border px-3 py-2.5 text-xs font-semibold ${
                     active ? "border-primary bg-secondary text-secondary-foreground" : "border-border"
                   }`}
