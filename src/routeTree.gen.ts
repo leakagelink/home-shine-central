@@ -13,10 +13,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as SetupRouteImport } from './routes/setup'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppAccountRouteImport } from './routes/_authenticated/app.account'
 import { Route as AuthenticatedAppCheckoutRouteImport } from './routes/_authenticated/app.checkout'
 import { Route as AuthenticatedAppNotificationsRouteImport } from './routes/_authenticated/app.notifications'
 import { Route as AuthenticatedAppBookCategoryRouteImport } from './routes/_authenticated/app.book.$category'
 import { Route as AuthenticatedAppBookingsIndexRouteImport } from './routes/_authenticated/app.bookings.index'
+import { Route as AuthenticatedAppBookingsIdRouteImport } from './routes/_authenticated/app.bookings.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -35,6 +37,11 @@ const SetupRoute = SetupRouteImport.update({
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/app/',
   path: '/app/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAppAccountRoute = AuthenticatedAppAccountRouteImport.update({
+  id: '/app/account',
+  path: '/app/account',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAppCheckoutRoute =
@@ -61,23 +68,33 @@ const AuthenticatedAppBookingsIndexRoute =
     path: '/app/bookings/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppBookingsIdRoute =
+  AuthenticatedAppBookingsIdRouteImport.update({
+    id: '/app/bookings/$id',
+    path: '/app/bookings/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/setup': typeof SetupRoute
+  '/app/account': typeof AuthenticatedAppAccountRoute
   '/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/app/notifications': typeof AuthenticatedAppNotificationsRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/book/$category': typeof AuthenticatedAppBookCategoryRoute
+  '/app/bookings/$id': typeof AuthenticatedAppBookingsIdRoute
   '/app/bookings/': typeof AuthenticatedAppBookingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/setup': typeof SetupRoute
+  '/app/account': typeof AuthenticatedAppAccountRoute
   '/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/app/notifications': typeof AuthenticatedAppNotificationsRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/book/$category': typeof AuthenticatedAppBookCategoryRoute
+  '/app/bookings/$id': typeof AuthenticatedAppBookingsIdRoute
   '/app/bookings': typeof AuthenticatedAppBookingsIndexRoute
 }
 export interface FileRoutesById {
@@ -85,10 +102,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/setup': typeof SetupRoute
+  '/_authenticated/app/account': typeof AuthenticatedAppAccountRoute
   '/_authenticated/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/_authenticated/app/notifications': typeof AuthenticatedAppNotificationsRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/book/$category': typeof AuthenticatedAppBookCategoryRoute
+  '/_authenticated/app/bookings/$id': typeof AuthenticatedAppBookingsIdRoute
   '/_authenticated/app/bookings/': typeof AuthenticatedAppBookingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -96,29 +115,35 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/setup'
+    | '/app/account'
     | '/app/checkout'
     | '/app/notifications'
     | '/app/'
     | '/app/book/$category'
+    | '/app/bookings/$id'
     | '/app/bookings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/setup'
+    | '/app/account'
     | '/app/checkout'
     | '/app/notifications'
     | '/app'
     | '/app/book/$category'
+    | '/app/bookings/$id'
     | '/app/bookings'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/setup'
+    | '/_authenticated/app/account'
     | '/_authenticated/app/checkout'
     | '/_authenticated/app/notifications'
     | '/_authenticated/app/'
     | '/_authenticated/app/book/$category'
+    | '/_authenticated/app/bookings/$id'
     | '/_authenticated/app/bookings/'
   fileRoutesById: FileRoutesById
 }
@@ -158,6 +183,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/account': {
+      id: '/_authenticated/app/account'
+      path: '/app/account'
+      fullPath: '/app/account'
+      preLoaderRoute: typeof AuthenticatedAppAccountRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/app/checkout': {
       id: '/_authenticated/app/checkout'
       path: '/app/checkout'
@@ -186,22 +218,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppBookingsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/bookings/$id': {
+      id: '/_authenticated/app/bookings/$id'
+      path: '/app/bookings/$id'
+      fullPath: '/app/bookings/$id'
+      preLoaderRoute: typeof AuthenticatedAppBookingsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppAccountRoute: typeof AuthenticatedAppAccountRoute
   AuthenticatedAppCheckoutRoute: typeof AuthenticatedAppCheckoutRoute
   AuthenticatedAppNotificationsRoute: typeof AuthenticatedAppNotificationsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppBookCategoryRoute: typeof AuthenticatedAppBookCategoryRoute
+  AuthenticatedAppBookingsIdRoute: typeof AuthenticatedAppBookingsIdRoute
   AuthenticatedAppBookingsIndexRoute: typeof AuthenticatedAppBookingsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppAccountRoute: AuthenticatedAppAccountRoute,
   AuthenticatedAppCheckoutRoute: AuthenticatedAppCheckoutRoute,
   AuthenticatedAppNotificationsRoute: AuthenticatedAppNotificationsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppBookCategoryRoute: AuthenticatedAppBookCategoryRoute,
+  AuthenticatedAppBookingsIdRoute: AuthenticatedAppBookingsIdRoute,
   AuthenticatedAppBookingsIndexRoute: AuthenticatedAppBookingsIndexRoute,
 }
 

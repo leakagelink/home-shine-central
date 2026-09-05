@@ -53,7 +53,7 @@ function BookingDetail() {
   );
   const canReview =
     ["work_completed", "review_pending", "completed"].includes(data.status) &&
-    (data.reviews ?? []).length === 0;
+    !data.reviews;
 
   return (
     <div className="min-h-screen bg-background pb-12">

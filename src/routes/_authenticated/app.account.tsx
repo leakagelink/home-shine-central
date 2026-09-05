@@ -47,7 +47,7 @@ function AccountPage() {
     <div className="flex min-h-screen flex-col bg-background">
       <PageHeader
         title="Account"
-        subtitle={user?.mobile ? `+91 ${user.mobile.replace("+91", "")}` : undefined}
+        subtitle={`+91 ${(user?.mobile ?? "").replace("+91", "")}`.trim()}
       />
 
       <main className="flex-1 space-y-5 px-5 pt-6 pb-8">
