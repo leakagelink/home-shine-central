@@ -55,9 +55,29 @@ function AdminDashboard() {
   });
 
   async function handleCreatePartner() {
+    const fullName = partnerForm.fullName.trim();
+    const mobile = partnerForm.mobile.replace(/\D/g, "");
+    const temporaryPin = partnerForm.temporaryPin.replace(/\D/g, "");
+    const city = partnerForm.city.trim();
+
+    if (fullName.length < 2) {
+      toast.error("Enter the partner's full name.");
+      return;
+    }
+    if (mobile.length !== 10) {
+      toast.error("Enter a 10-digit mobile number.");
+      return;
+    }
+    if (temporaryPin.length < 4) {
+      toast.error("Set a temporary PIN of at least 4 digits.");
+      return;
+    }
+
     setBusy(true);
     try {
-      const res = await addPartner({ data: partnerForm });
+      const res = await addPartner({
+        data: { fullName, mobile, temporaryPin, ...(city ? { city } : {}) },
+      });
       if (!res.ok) {
         toast.error(res.message);
         return;
@@ -65,6 +85,8 @@ function AdminDashboard() {
       toast.success("Partner account created. Share the temporary PIN securely.");
       setPartnerForm({ fullName: "", mobile: "", temporaryPin: "", city: "" });
       refresh();
+    } catch {
+      toast.error("Could not create the partner account. Please try again.");
     } finally {
       setBusy(false);
     }
