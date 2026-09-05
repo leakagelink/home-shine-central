@@ -13,6 +13,7 @@ import {
   assignPartner,
   decideWithdrawal,
   decideRefund,
+  createPartnerAccount,
 } from "@/lib/admin.functions";
 import { rupees, shortDate, STATUS_LABELS } from "@/lib/format";
 
@@ -41,10 +42,33 @@ function AdminDashboard() {
   const assign = useServerFn(assignPartner);
   const payout = useServerFn(decideWithdrawal);
   const refund = useServerFn(decideRefund);
+  const addPartner = useServerFn(createPartnerAccount);
 
   const overview = useQuery({ queryKey: ["admin-overview"], queryFn: () => load({}) });
   const [busy, setBusy] = useState(false);
   const [assignments, setAssignments] = useState<Record<string, string>>({});
+  const [partnerForm, setPartnerForm] = useState({
+    fullName: "",
+    mobile: "",
+    temporaryPin: "",
+    city: "",
+  });
+
+  async function handleCreatePartner() {
+    setBusy(true);
+    try {
+      const res = await addPartner({ data: partnerForm });
+      if (!res.ok) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success("Partner account created. Share the temporary PIN securely.");
+      setPartnerForm({ fullName: "", mobile: "", temporaryPin: "", city: "" });
+      refresh();
+    } finally {
+      setBusy(false);
+    }
+  }
 
   function refresh() {
     queryClient.invalidateQueries({ queryKey: ["admin-overview"] });
@@ -99,6 +123,54 @@ function AdminDashboard() {
               <p className="mt-1 text-lg font-bold">{value}</p>
             </div>
           ))}
+        </section>
+
+        <section>
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+            Add a partner
+          </h2>
+          <div className="surface mt-3 space-y-3 p-4">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <input
+                className="field"
+                placeholder="Full name"
+                value={partnerForm.fullName}
+                onChange={(e) => setPartnerForm((f) => ({ ...f, fullName: e.target.value }))}
+              />
+              <input
+                className="field"
+                inputMode="numeric"
+                placeholder="Mobile number"
+                value={partnerForm.mobile}
+                onChange={(e) => setPartnerForm((f) => ({ ...f, mobile: e.target.value }))}
+              />
+              <input
+                className="field"
+                placeholder="City"
+                value={partnerForm.city}
+                onChange={(e) => setPartnerForm((f) => ({ ...f, city: e.target.value }))}
+              />
+              <input
+                className="field"
+                inputMode="numeric"
+                placeholder="Temporary PIN"
+                value={partnerForm.temporaryPin}
+                onChange={(e) => setPartnerForm((f) => ({ ...f, temporaryPin: e.target.value }))}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              The PIN is hashed on our servers. Ask the partner to change it after their first
+              sign-in.
+            </p>
+            <button
+              type="button"
+              className="btn-primary w-full sm:w-auto"
+              disabled={busy}
+              onClick={handleCreatePartner}
+            >
+              Create partner account
+            </button>
+          </div>
         </section>
 
         <section>
