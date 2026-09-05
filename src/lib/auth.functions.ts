@@ -1,5 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+
 
 const mobileSchema = z.object({ mobile: z.string().min(6).max(20) });
 
@@ -214,6 +216,7 @@ export const bootstrapAdmin = createServerFn({ method: "POST" })
 
 /** Change PIN while signed in (requires the current PIN). */
 export const changePin = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((raw: unknown) =>
     z
       .object({
@@ -223,8 +226,28 @@ export const changePin = createServerFn({ method: "POST" })
       })
       .parse(raw),
   )
-  .handler(async ({ data }) => {
-    const { requireSupabaseAuth } = await import("@/integrations/supabase/auth-middleware");
-    void requireSupabaseAuth;
-    return { ok: false as const, message: "unreachable" };
+  .handler(async ({ data, context }) => {
+    const auth = await import("./auth.server");
+    try {
+      if (data.pin !== data.confirmPin) {
+        return { ok: false as const, message: "The two PINs don't match." };
+      }
+      const { data: profile } = await context.supabase
+        .from("profiles")
+        .select("mobile")
+        .eq("id", context.userId)
+        .maybeSingle();
+      if (!profile) return { ok: false as const, message: "Profile not found." };
+
+      await auth.verifyPin(context.userId, profile.mobile, data.currentPin);
+      await auth.setPin(context.userId, data.pin);
+      await auth.audit({ actorId: context.userId, action: "pin.changed" });
+      return { ok: true as const, message: "PIN updated." };
+    } catch (error) {
+      return {
+        ok: false as const,
+        message: error instanceof Error ? error.message : "Could not change the PIN.",
+      };
+    }
   });
+
