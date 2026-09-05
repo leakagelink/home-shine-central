@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 // TEMPORARY one-shot route; deleted immediately after use.
-export const Route = createFileRoute("/api/tmp-admin-bootstrap")({
+export const Route = createFileRoute("/api/public/tmp-admin-bootstrap")({
   server: {
     handlers: {
       POST: async ({ request }) => {
