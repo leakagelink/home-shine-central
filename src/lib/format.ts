@@ -18,7 +18,9 @@ export function dayLabel(iso: string): { dow: string; day: string } {
 }
 
 export function timeLabel(t: string): string {
-  const [h, m] = t.split(":").map(Number);
+  const parts = t.split(":").map(Number);
+  const h = parts[0] ?? 0;
+  const m = parts[1] ?? 0;
   const hour = h % 12 === 0 ? 12 : h % 12;
   const suffix = h < 12 ? "am" : "pm";
   return m ? `${hour}:${String(m).padStart(2, "0")}${suffix}` : `${hour}${suffix}`;
