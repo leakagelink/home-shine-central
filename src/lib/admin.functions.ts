@@ -281,3 +281,70 @@ export const setUserStatus = createServerFn({ method: "POST" })
     });
     return { ok: true as const };
   });
+
+/**
+ * Partners are onboarded by operations, never self-registered: the admin sets a
+ * temporary PIN that the partner changes from their own account screen.
+ */
+export const createPartnerAccount = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((raw: unknown) =>
+    z
+      .object({
+        fullName: z.string().trim().min(2).max(80),
+        mobile: z.string().trim().min(10).max(15),
+        temporaryPin: z.string().trim(),
+        city: z.string().trim().max(60).optional(),
+      })
+      .parse(raw),
+  )
+  .handler(async ({ data, context }) => {
+    await requireAdmin(context);
+    const { normaliseMobile, createAccount, AuthError } = await import("@/lib/auth.server");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    try {
+      const mobile = normaliseMobile(data.mobile);
+      const { data: existing } = await supabaseAdmin
+        .from("profiles")
+        .select("id")
+        .eq("mobile", mobile)
+        .maybeSingle();
+      if (existing) {
+        return { ok: false as const, message: "An account already uses that number." };
+      }
+
+      const userId = await createAccount({
+        mobile,
+        pin: data.temporaryPin,
+        role: "partner",
+        fullName: data.fullName,
+      });
+
+      if (data.city) {
+        await supabaseAdmin
+          .from("partner_profiles")
+          .update({ city: data.city })
+          .eq("user_id", userId);
+      }
+
+      await supabaseAdmin.from("notifications").insert({
+        user_id: userId,
+        audience: "partner",
+        title: "Welcome to SqueakClean",
+        body: "Submit your verification documents, then change your temporary PIN.",
+        kind: "account",
+      });
+      await supabaseAdmin.from("audit_logs").insert({
+        actor_id: context.userId,
+        actor_role: "admin",
+        action: "partner.created",
+        entity: "profiles",
+        entity_id: userId,
+      });
+      return { ok: true as const, partnerId: userId };
+    } catch (error) {
+      if (error instanceof AuthError) return { ok: false as const, message: error.message };
+      return { ok: false as const, message: "Could not create the partner account." };
+    }
+  });
