@@ -12,10 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as SetupRouteImport } from './routes/setup'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppAccountRouteImport } from './routes/_authenticated/app.account'
 import { Route as AuthenticatedAppCheckoutRouteImport } from './routes/_authenticated/app.checkout'
 import { Route as AuthenticatedAppNotificationsRouteImport } from './routes/_authenticated/app.notifications'
+import { Route as AuthenticatedPartnerIndexRouteImport } from './routes/_authenticated/partner.index'
 import { Route as AuthenticatedAppBookCategoryRouteImport } from './routes/_authenticated/app.book.$category'
 import { Route as AuthenticatedAppBookingsIndexRouteImport } from './routes/_authenticated/app.bookings.index'
 import { Route as AuthenticatedAppBookingsIdRouteImport } from './routes/_authenticated/app.bookings.$id'
@@ -33,6 +35,11 @@ const SetupRoute = SetupRouteImport.update({
   id: '/setup',
   path: '/setup',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/app/',
@@ -54,6 +61,12 @@ const AuthenticatedAppNotificationsRoute =
   AuthenticatedAppNotificationsRouteImport.update({
     id: '/app/notifications',
     path: '/app/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPartnerIndexRoute =
+  AuthenticatedPartnerIndexRouteImport.update({
+    id: '/partner/',
+    path: '/partner/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAppBookCategoryRoute =
@@ -81,7 +94,9 @@ export interface FileRoutesByFullPath {
   '/app/account': typeof AuthenticatedAppAccountRoute
   '/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/app/notifications': typeof AuthenticatedAppNotificationsRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/partner/': typeof AuthenticatedPartnerIndexRoute
   '/app/book/$category': typeof AuthenticatedAppBookCategoryRoute
   '/app/bookings/$id': typeof AuthenticatedAppBookingsIdRoute
   '/app/bookings/': typeof AuthenticatedAppBookingsIndexRoute
@@ -92,7 +107,9 @@ export interface FileRoutesByTo {
   '/app/account': typeof AuthenticatedAppAccountRoute
   '/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/app/notifications': typeof AuthenticatedAppNotificationsRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/partner': typeof AuthenticatedPartnerIndexRoute
   '/app/book/$category': typeof AuthenticatedAppBookCategoryRoute
   '/app/bookings/$id': typeof AuthenticatedAppBookingsIdRoute
   '/app/bookings': typeof AuthenticatedAppBookingsIndexRoute
@@ -105,7 +122,9 @@ export interface FileRoutesById {
   '/_authenticated/app/account': typeof AuthenticatedAppAccountRoute
   '/_authenticated/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/_authenticated/app/notifications': typeof AuthenticatedAppNotificationsRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/partner/': typeof AuthenticatedPartnerIndexRoute
   '/_authenticated/app/book/$category': typeof AuthenticatedAppBookCategoryRoute
   '/_authenticated/app/bookings/$id': typeof AuthenticatedAppBookingsIdRoute
   '/_authenticated/app/bookings/': typeof AuthenticatedAppBookingsIndexRoute
@@ -118,7 +137,9 @@ export interface FileRouteTypes {
     | '/app/account'
     | '/app/checkout'
     | '/app/notifications'
+    | '/admin/'
     | '/app/'
+    | '/partner/'
     | '/app/book/$category'
     | '/app/bookings/$id'
     | '/app/bookings/'
@@ -129,7 +150,9 @@ export interface FileRouteTypes {
     | '/app/account'
     | '/app/checkout'
     | '/app/notifications'
+    | '/admin'
     | '/app'
+    | '/partner'
     | '/app/book/$category'
     | '/app/bookings/$id'
     | '/app/bookings'
@@ -141,7 +164,9 @@ export interface FileRouteTypes {
     | '/_authenticated/app/account'
     | '/_authenticated/app/checkout'
     | '/_authenticated/app/notifications'
+    | '/_authenticated/admin/'
     | '/_authenticated/app/'
+    | '/_authenticated/partner/'
     | '/_authenticated/app/book/$category'
     | '/_authenticated/app/bookings/$id'
     | '/_authenticated/app/bookings/'
@@ -176,6 +201,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/app/': {
       id: '/_authenticated/app/'
       path: '/app'
@@ -202,6 +234,13 @@ declare module '@tanstack/react-router' {
       path: '/app/notifications'
       fullPath: '/app/notifications'
       preLoaderRoute: typeof AuthenticatedAppNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/partner/': {
+      id: '/_authenticated/partner/'
+      path: '/partner'
+      fullPath: '/partner/'
+      preLoaderRoute: typeof AuthenticatedPartnerIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/book/$category': {
@@ -232,7 +271,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppAccountRoute: typeof AuthenticatedAppAccountRoute
   AuthenticatedAppCheckoutRoute: typeof AuthenticatedAppCheckoutRoute
   AuthenticatedAppNotificationsRoute: typeof AuthenticatedAppNotificationsRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedPartnerIndexRoute: typeof AuthenticatedPartnerIndexRoute
   AuthenticatedAppBookCategoryRoute: typeof AuthenticatedAppBookCategoryRoute
   AuthenticatedAppBookingsIdRoute: typeof AuthenticatedAppBookingsIdRoute
   AuthenticatedAppBookingsIndexRoute: typeof AuthenticatedAppBookingsIndexRoute
@@ -242,7 +283,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppAccountRoute: AuthenticatedAppAccountRoute,
   AuthenticatedAppCheckoutRoute: AuthenticatedAppCheckoutRoute,
   AuthenticatedAppNotificationsRoute: AuthenticatedAppNotificationsRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedPartnerIndexRoute: AuthenticatedPartnerIndexRoute,
   AuthenticatedAppBookCategoryRoute: AuthenticatedAppBookCategoryRoute,
   AuthenticatedAppBookingsIdRoute: AuthenticatedAppBookingsIdRoute,
   AuthenticatedAppBookingsIndexRoute: AuthenticatedAppBookingsIndexRoute,
