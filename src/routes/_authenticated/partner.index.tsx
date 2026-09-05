@@ -32,8 +32,16 @@ export const Route = createFileRoute("/_authenticated/partner/")({
   component: PartnerDashboard,
 });
 
-const STEPS = ["partner_accepted", "on_the_way", "arrived", "work_started", "work_completed"] as const;
+const STEPS = [
+  "partner_assigned",
+  "partner_accepted",
+  "on_the_way",
+  "arrived",
+  "work_started",
+  "work_completed",
+] as const;
 const STEP_LABEL: Record<string, string> = {
+  partner_accepted: "Accept this job",
   on_the_way: "On the way",
   arrived: "I've arrived",
   work_started: "Start work",
