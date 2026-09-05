@@ -77,8 +77,8 @@ function AuthPage() {
       }
       setPurpose(nextPurpose);
       setStep("otp");
-      if ("devCode" in res && res.devCode) {
-        setDevCode(String(res.devCode));
+      if (!res.deliveryConfigured && res.code) {
+        setDevCode(String(res.code));
       } else {
         toast.success("Verification code sent.");
       }
