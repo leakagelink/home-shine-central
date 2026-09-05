@@ -118,7 +118,7 @@ export function bookingDetailQuery(id: string) {
       const { data, error } = await supabase
         .from("bookings")
         .select(
-          "*, booking_items(*), booking_status_history(status, note, created_at), payments(status, provider, amount_paise), reviews(rating, comment), job_photos(kind, storage_path)",
+          "*, booking_items(*), booking_status_history(status, note, created_at), payments(status, provider, amount_paise), reviews(rating, comment), job_photos(kind, file_path)",
         )
         .eq("id", id)
         .maybeSingle();
