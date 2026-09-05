@@ -63,9 +63,7 @@ function AuthPage() {
   const signIn = useServerFn(loginWithPin);
 
   async function finish(tokenHash: string, roles: string[]) {
-    console.log("[dbg] exchanging");
     await exchangeSessionTicket(tokenHash);
-    console.log("[dbg] exchanged", homeForRoles(roles));
     await router.invalidate();
     await navigate({ to: homeForRoles(roles), replace: true });
   }
