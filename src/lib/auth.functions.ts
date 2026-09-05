@@ -2,7 +2,6 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-
 const mobileSchema = z.object({ mobile: z.string().min(6).max(20) });
 
 /** Request a verification code for onboarding / login / PIN reset. */
@@ -250,4 +249,3 @@ export const changePin = createServerFn({ method: "POST" })
       };
     }
   });
-

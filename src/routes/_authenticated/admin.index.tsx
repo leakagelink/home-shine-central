@@ -91,7 +91,9 @@ function AdminDashboard() {
     <div className="min-h-screen bg-background pb-12">
       <header className="flex items-start justify-between gap-3 px-5 pt-8">
         <div>
-          <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">Admin</p>
+          <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">
+            Admin
+          </p>
           <h1 className="mt-1 text-2xl font-bold">Operations</h1>
         </div>
         <button
@@ -287,7 +289,10 @@ function AdminDashboard() {
               <p className="surface p-4 text-xs text-muted-foreground">Nothing pending.</p>
             )}
             {(data?.refunds ?? []).map((r) => (
-              <div key={r.id} className="surface flex items-center justify-between gap-3 p-4 text-xs">
+              <div
+                key={r.id}
+                className="surface flex items-center justify-between gap-3 p-4 text-xs"
+              >
                 <div>
                   <p className="font-semibold">{rupees(r.amount_paise)}</p>
                   <p className="text-muted-foreground">
@@ -340,7 +345,10 @@ function AdminDashboard() {
               <p className="surface p-4 text-xs text-muted-foreground">Nothing pending.</p>
             )}
             {(data?.withdrawals ?? []).map((w) => (
-              <div key={w.id} className="surface flex items-center justify-between gap-3 p-4 text-xs">
+              <div
+                key={w.id}
+                className="surface flex items-center justify-between gap-3 p-4 text-xs"
+              >
                 <div>
                   <p className="font-semibold">{rupees(w.amount_paise)}</p>
                   <p className="text-muted-foreground">{shortDate(w.created_at)}</p>

@@ -89,7 +89,9 @@ function SetupPage() {
               placeholder="PIN"
               inputMode="numeric"
               value={form.pin}
-              onChange={(e) => setForm({ ...form, pin: e.target.value.replace(/\D/g, "").slice(0, 6) })}
+              onChange={(e) =>
+                setForm({ ...form, pin: e.target.value.replace(/\D/g, "").slice(0, 6) })
+              }
               className="field-shell w-full px-4 py-3 text-sm outline-none"
             />
             <input

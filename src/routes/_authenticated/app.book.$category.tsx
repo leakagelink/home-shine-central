@@ -79,10 +79,13 @@ function BookCategory() {
                     </p>
                   )}
                   <p className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
-                    <span className="text-sm font-bold text-foreground">{rupees(s.price_paise)}</span>
+                    <span className="text-sm font-bold text-foreground">
+                      {rupees(s.price_paise)}
+                    </span>
                     {s.duration_minutes && (
                       <span className="inline-flex items-center gap-1">
-                        <Clock className="h-3.5 w-3.5" aria-hidden="true" /> {s.duration_minutes} min
+                        <Clock className="h-3.5 w-3.5" aria-hidden="true" /> {s.duration_minutes}{" "}
+                        min
                       </span>
                     )}
                   </p>

@@ -14,8 +14,6 @@ export async function exchangeSessionTicket(tokenHash: string) {
   }
 }
 
-
-
 export function homeForRoles(roles: string[]): "/app" | "/partner" | "/admin" {
   if (roles.includes("admin")) return "/admin";
   if (roles.includes("partner")) return "/partner";

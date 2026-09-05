@@ -7,7 +7,10 @@ async function requireAdmin(context: { supabase: unknown; userId: string }) {
   const supabase = context.supabase as {
     from: (t: string) => {
       select: (c: string) => {
-        eq: (a: string, b: string) => {
+        eq: (
+          a: string,
+          b: string,
+        ) => {
           eq: (a: string, b: string) => { maybeSingle: () => Promise<{ data: unknown }> };
         };
       };
@@ -31,7 +34,9 @@ export const adminOverview = createServerFn({ method: "GET" })
     const [bookings, partners, kyc, withdrawals, refunds, tickets] = await Promise.all([
       supabaseAdmin
         .from("bookings")
-        .select("id, booking_number, status, total_paise, scheduled_date, category_slug, created_at")
+        .select(
+          "id, booking_number, status, total_paise, scheduled_date, category_slug, created_at",
+        )
         .order("created_at", { ascending: false })
         .limit(40),
       supabaseAdmin
@@ -257,9 +262,7 @@ export const decideRefund = createServerFn({ method: "POST" })
 export const setUserStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw: unknown) =>
-    z
-      .object({ userId: z.string().uuid(), status: z.enum(["active", "suspended"]) })
-      .parse(raw),
+    z.object({ userId: z.string().uuid(), status: z.enum(["active", "suspended"]) }).parse(raw),
   )
   .handler(async ({ data, context }) => {
     await requireAdmin(context);

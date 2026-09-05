@@ -10,16 +10,29 @@ const PARTNER_FLOW = [
   "work_completed",
 ] as const;
 
-async function assertPartner(supabase: { rpc: (fn: string, args: unknown) => unknown }, userId: string) {
-  const { data } = (await (supabase as never as {
-    from: (t: string) => {
-      select: (c: string) => {
-        eq: (a: string, b: string) => {
-          eq: (a: string, b: string) => { maybeSingle: () => Promise<{ data: unknown }> };
+async function assertPartner(
+  supabase: { rpc: (fn: string, args: unknown) => unknown },
+  userId: string,
+) {
+  const { data } = (await (
+    supabase as never as {
+      from: (t: string) => {
+        select: (c: string) => {
+          eq: (
+            a: string,
+            b: string,
+          ) => {
+            eq: (a: string, b: string) => { maybeSingle: () => Promise<{ data: unknown }> };
+          };
         };
       };
-    };
-  }).from("user_roles").select("role").eq("user_id", userId).eq("role", "partner").maybeSingle()) as {
+    }
+  )
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .eq("role", "partner")
+    .maybeSingle()) as {
     data: unknown;
   };
   if (!data) throw new Error("This account is not a partner.");

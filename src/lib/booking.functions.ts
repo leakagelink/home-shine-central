@@ -337,7 +337,10 @@ export const cancelBooking = createServerFn({ method: "POST" })
         amount_paise: paid.amount_paise,
         reason: `Cancelled: ${data.reason}`,
       });
-      await supabaseAdmin.from("bookings").update({ status: "refund_initiated" }).eq("id", booking.id);
+      await supabaseAdmin
+        .from("bookings")
+        .update({ status: "refund_initiated" })
+        .eq("id", booking.id);
     }
 
     await supabaseAdmin.from("notifications").insert({

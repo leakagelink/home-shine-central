@@ -127,8 +127,8 @@ function PartnerDashboard() {
           </p>
           <h1 className="mt-1 text-2xl font-bold">{user?.fullName ?? "Your jobs"}</h1>
           <p className="mt-1 text-xs text-muted-foreground">
-            Rating {Number(profile.data?.rating ?? 0).toFixed(1)} · {profile.data?.jobs_completed ?? 0}{" "}
-            jobs done
+            Rating {Number(profile.data?.rating ?? 0).toFixed(1)} ·{" "}
+            {profile.data?.jobs_completed ?? 0} jobs done
           </p>
         </div>
         <button
