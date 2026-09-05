@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate, useRouter, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Loader2, ShieldCheck, Sparkles, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
@@ -44,6 +45,7 @@ const ROLES: { value: Role; label: string; blurb: string }[] = [
 function AuthPage() {
   const navigate = useNavigate();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [role, setRole] = useState<Role>("customer");
   const [step, setStep] = useState<Step>("role");
   const [mobile, setMobile] = useState("");
@@ -64,6 +66,7 @@ function AuthPage() {
 
   async function finish(tokenHash: string, roles: string[]) {
     await exchangeSessionTicket(tokenHash);
+    await queryClient.invalidateQueries({ queryKey: ["session-user"] });
     await router.invalidate();
     await navigate({ to: homeForRoles(roles), replace: true });
   }
