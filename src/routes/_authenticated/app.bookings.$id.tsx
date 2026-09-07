@@ -6,6 +6,14 @@ import { ArrowLeft, Star, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { bookingDetailQuery } from "@/lib/catalog";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  BookingChat,
+  JobPhotoGallery,
+  TrackingCard,
+  useBookingRealtime,
+} from "@/components/BookingLive";
+import { RepeatPlanCard } from "@/components/BookingActions";
 import { cancelBooking, rescheduleBooking, submitReview } from "@/lib/booking.functions";
 import { rupees, shortDate, timeLabel, STATUS_LABELS, TIME_SLOTS, nextDates } from "@/lib/format";
 
@@ -27,6 +35,8 @@ export const Route = createFileRoute("/_authenticated/app/bookings/$id")({
 function BookingDetail() {
   const { id } = useParams({ from: "/_authenticated/app/bookings/$id" });
   const queryClient = useQueryClient();
+  const { user } = useAuth();
+  useBookingRealtime(id);
   const { data, isLoading } = useQuery(bookingDetailQuery(id));
   const cancel = useServerFn(cancelBooking);
   const reschedule = useServerFn(rescheduleBooking);
@@ -128,6 +138,23 @@ function BookingDetail() {
           </ol>
         </section>
 
+        {["partner_accepted", "on_the_way", "arrived", "work_started", "work_completed"].includes(
+          data.status,
+        ) && (
+          <TrackingCard
+            bookingId={id}
+            status={data.status}
+            etaAt={data.partner_eta_at}
+            note={data.partner_note}
+          />
+        )}
+
+        <JobPhotoGallery bookingId={id} />
+
+        {data.partner_id && !["cancelled", "completed"].includes(data.status) && (
+          <BookingChat bookingId={id} myId={user?.id} />
+        )}
+
         {(data.payments ?? []).length > 0 && (
           <section className="surface p-4 text-xs">
             <h2 className="text-sm font-semibold">Payment</h2>
@@ -139,6 +166,16 @@ function BookingDetail() {
               </p>
             ))}
           </section>
+        )}
+
+        {["work_completed", "review_pending", "completed"].includes(data.status) && (
+          <RepeatPlanCard
+            items={data.booking_items ?? []}
+            slotStart={data.slot_start}
+            slotEnd={data.slot_end}
+            addressId={data.address_id}
+            title={`${data.category_slug ?? "Cleaning"} plan`}
+          />
         )}
 
         {canReview && (

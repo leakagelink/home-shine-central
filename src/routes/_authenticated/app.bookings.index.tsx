@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import { CustomerNav, PageHeader } from "@/components/CustomerNav";
 import { myBookingsQuery } from "@/lib/catalog";
 import { rupees, shortDate, timeLabel, STATUS_LABELS } from "@/lib/format";
+import { ReorderButton } from "@/components/BookingActions";
 
 export const Route = createFileRoute("/_authenticated/app/bookings/")({
   head: () => ({
@@ -32,11 +33,11 @@ function BookingsList() {
           </p>
         )}
         {(data ?? []).map((b) => (
+          <div key={b.id} className="surface p-4">
           <Link
-            key={b.id}
             to="/app/bookings/$id"
             params={{ id: b.id }}
-            className="surface flex items-center justify-between gap-3 p-4"
+            className="flex items-center justify-between gap-3"
           >
             <div className="min-w-0">
               <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">
@@ -49,6 +50,10 @@ function BookingsList() {
             </div>
             <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
           </Link>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <ReorderButton items={b.booking_items ?? []} categorySlug={b.category_slug} />
+            </div>
+          </div>
         ))}
       </main>
       <CustomerNav />
