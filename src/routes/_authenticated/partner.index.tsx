@@ -148,14 +148,15 @@ function PartnerDashboard() {
 
 
       <main className="mx-auto max-w-2xl space-y-5 px-4 sm:px-5 pt-6">
-        <section className="surface flex animate-rise items-center justify-between gap-3 border-l-4 border-primary p-4">
-          <div>
+        <section className="surface grid animate-rise grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-l-4 border-primary p-4">
+          <div className="min-w-0">
             <p className="text-sm font-semibold">Available for jobs</p>
             <p className="text-xs text-muted-foreground">Turn off when you're done for the day.</p>
           </div>
           <input
             type="checkbox"
-            className="h-6 w-11 accent-[var(--pine)]"
+            className="h-6 w-11 shrink-0 accent-[var(--pine)]"
+
             checked={Boolean(profile.data?.is_available)}
             onChange={async (e) => {
               await toggle({ data: { available: e.target.checked } });
