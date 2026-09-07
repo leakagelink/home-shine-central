@@ -204,14 +204,15 @@ function AdminDashboard() {
               <p className="surface p-4 text-xs text-muted-foreground">Nothing pending.</p>
             )}
             {(data?.pendingKyc ?? []).map((k) => (
-              <div key={k.id} className="surface flex items-center justify-between gap-3 p-4">
-                <div className="text-xs">
-                  <p className="font-semibold">
+              <div key={k.id} className="surface flex flex-wrap items-center justify-between gap-3 p-4">
+                <div className="min-w-0 text-xs">
+                  <p className="break-words font-semibold">
                     {k.doc_type} · ••{k.doc_number_masked}
                   </p>
                   <p className="text-muted-foreground">{shortDate(k.created_at)}</p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex shrink-0 gap-2">
+
                   {[true, false].map((approve) => (
                     <button
                       key={String(approve)}
