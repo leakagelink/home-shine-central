@@ -126,26 +126,29 @@ export function AuthFlow({
   }
 
   return (
-    <main className="min-h-screen bg-background">
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-5 pb-10 pt-10 sm:max-w-lg">
+    <main className="min-h-screen overflow-hidden bg-background">
+      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-5 pb-10 pt-8 sm:max-w-lg sm:justify-center sm:py-12">
         <header className="animate-rise">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1 text-xs font-semibold uppercase tracking-widest text-secondary-foreground">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" /> SqueakClean
-          </span>
-          <h1 className="mt-5 text-[2.1rem] leading-[1.05] font-bold text-foreground">
-            A spotless home,
+          <div className="flex items-center gap-3">
+            <span className="brand-mark inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+              <Sparkles className="h-6 w-6" aria-hidden="true" />
+            </span>
+            <span className="text-lg font-semibold text-foreground">SqueakClean</span>
+          </div>
+          <h1 className="mt-8 text-[3.25rem] leading-[0.95] text-foreground sm:text-6xl">
+            Pristine spaces,
             <br />
-            booked in a minute.
+            <em className="text-primary">effortless living.</em>
           </h1>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Verified professionals, fixed prices, and live updates from arrival to finish.
+          <p className="mt-5 max-w-sm text-base leading-relaxed text-muted-foreground">
+            Premium home care with verified local experts, fixed prices and live updates.
           </p>
         </header>
 
-        <section className="surface mt-8 animate-rise p-5">
+        <section className="mt-8 animate-rise rounded-2xl border border-border bg-card p-5 shadow-sheet">
           {step === "role" && (
             <div>
-              <h2 className="text-base font-semibold">Sign in as</h2>
+              <h2 className="text-2xl">Choose your experience</h2>
               <div className="mt-4 space-y-3">
                 {ROLES.filter((r) => visibleRoles.includes(r.value)).map((r) => (
                   <button
@@ -155,14 +158,14 @@ export function AuthFlow({
                       setRole(r.value);
                       setStep("mobile");
                     }}
-                    className="flex w-full items-center justify-between rounded-2xl border border-border bg-background px-4 py-4 text-left transition-transform active:scale-[0.98]"
+                    className={`group premium-action flex min-h-24 w-full items-center justify-between rounded-2xl border px-5 py-4 text-left ${r.value === "customer" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-foreground hover:border-primary/30 hover:bg-secondary/40"}`}
                   >
                     <span>
-                      <span className="block text-sm font-semibold text-foreground">{r.label}</span>
-                      <span className="mt-0.5 block text-xs text-muted-foreground">{r.blurb}</span>
+                      <span className="block text-lg font-semibold">{r.label} Sign In</span>
+                      <span className={`mt-1 block text-xs ${r.value === "customer" ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{r.blurb}</span>
                     </span>
-                    <span className="rounded-full bg-secondary px-2.5 py-1 text-[0.7rem] font-semibold text-secondary-foreground">
-                      Continue
+                    <span className={`inline-flex h-10 w-10 items-center justify-center rounded-full transition-transform group-hover:translate-x-1 ${r.value === "customer" ? "bg-primary-foreground/10" : "bg-secondary"}`}>
+                      <ArrowLeft className="h-4 w-4 rotate-180" aria-hidden="true" />
                     </span>
                   </button>
                 ))}
@@ -212,7 +215,7 @@ export function AuthFlow({
                   type="button"
                   disabled={mobile.length < 10 || busy}
                   onClick={() => setStep("pin")}
-                  className="w-full rounded-2xl bg-primary px-4 py-3.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"
+                   className="premium-action w-full rounded-xl bg-primary px-4 py-3.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"
                 >
                   Continue with PIN
                 </button>
@@ -221,7 +224,7 @@ export function AuthFlow({
                     type="button"
                     disabled={mobile.length < 10 || busy}
                     onClick={() => handleSendOtp("onboard")}
-                    className="w-full rounded-2xl border border-border px-4 py-3 text-sm font-semibold text-foreground disabled:opacity-50"
+                    className="w-full rounded-xl border border-border px-4 py-3 text-sm font-semibold text-foreground hover:bg-secondary disabled:opacity-50"
                   >
                     New here? Verify by code
                   </button>

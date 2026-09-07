@@ -48,12 +48,12 @@ function Dashboard() {
         subtitle="What needs a deep clean today?"
       />
 
-      <main className="flex-1 px-5 pb-8">
+      <main className="mx-auto w-full max-w-4xl flex-1 px-5 pb-8">
         {active.length > 0 && (
           <Link
             to="/app/bookings/$id"
             params={{ id: active[0]!.id }}
-            className="surface mt-6 flex animate-rise items-center justify-between gap-3 p-4"
+            className="surface mt-6 flex animate-rise items-center justify-between gap-3 border-l-4 border-primary p-4"
           >
             <div>
               <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">
@@ -68,10 +68,10 @@ function Dashboard() {
           </Link>
         )}
 
-        <h2 className="mt-8 text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+        <h2 className="mt-8 text-2xl text-foreground">
           Choose a service
         </h2>
-        <div className="mt-3 grid grid-cols-2 gap-3">
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {(categories.data ?? []).map((c) => {
             const Icon = ICONS[c.slug] ?? Sparkles;
             return (
@@ -79,13 +79,13 @@ function Dashboard() {
                 key={c.id}
                 to="/app/book/$category"
                 params={{ category: c.slug }}
-                className="surface flex animate-rise flex-col gap-3 p-4 transition-transform active:scale-[0.97]"
+                className="surface group flex min-h-40 animate-rise flex-col justify-between gap-4 p-4 active:scale-[0.97]"
               >
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground">
-                  <Icon className="h-5 w-5" aria-hidden="true" />
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-secondary-foreground transition-transform duration-300 group-hover:rotate-3 group-hover:scale-105">
+                  <Icon className="h-5 w-5 transition-transform group-hover:scale-110" aria-hidden="true" />
                 </span>
                 <span>
-                  <span className="block text-sm font-semibold">{c.name}</span>
+                  <span className="block text-lg font-semibold">{c.name}</span>
                   <span className="mt-0.5 block text-xs text-muted-foreground">{c.tagline}</span>
                 </span>
               </Link>
@@ -93,13 +93,13 @@ function Dashboard() {
           })}
           <Link
             to="/app/account"
-            className="surface flex animate-rise flex-col gap-3 p-4 transition-transform active:scale-[0.97]"
+            className="surface group flex min-h-40 animate-rise flex-col justify-between gap-4 p-4 active:scale-[0.97]"
           >
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-accent/20 text-foreground">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent/20 text-foreground transition-transform duration-300 group-hover:rotate-3 group-hover:scale-105">
               <User className="h-5 w-5" aria-hidden="true" />
             </span>
             <span>
-              <span className="block text-sm font-semibold">Account</span>
+              <span className="block text-lg font-semibold">Account</span>
               <span className="mt-0.5 block text-xs text-muted-foreground">
                 Addresses, PIN, support
               </span>
