@@ -41,12 +41,17 @@ export function PageHeader({
   action?: React.ReactNode;
 }) {
   return (
-    <header className="mx-auto flex w-full max-w-4xl animate-rise items-start justify-between gap-3 px-5 pt-8">
-      <div>
-        <h1 className="text-4xl leading-none text-foreground">{title}</h1>
-        {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
+    <header className="mx-auto grid w-full max-w-4xl animate-rise grid-cols-[minmax(0,1fr)_auto] items-start gap-3 px-4 pt-7 sm:px-5 sm:pt-8">
+      <div className="min-w-0">
+        <h1 className="truncate text-3xl leading-tight text-foreground sm:text-4xl sm:leading-none">
+          {title}
+        </h1>
+        {subtitle && (
+          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">{subtitle}</p>
+        )}
       </div>
-      {action}
+      {action && <div className="shrink-0">{action}</div>}
     </header>
+
   );
 }
