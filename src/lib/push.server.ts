@@ -114,7 +114,7 @@ export async function sendPushToUser(
           message: {
             token: row.token,
             notification: { title: payload.title, body: payload.body },
-            webpush: payload.url ? { fpUrl: undefined, fcm_options: { link: payload.url } } : undefined,
+            webpush: payload.url ? { fcm_options: { link: payload.url } } : undefined,
           },
         }),
       },
