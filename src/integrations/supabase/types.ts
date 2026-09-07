@@ -260,6 +260,44 @@ export type Database = {
           },
         ]
       }
+      booking_messages: {
+        Row: {
+          body: string
+          booking_id: string
+          created_at: string
+          id: string
+          read_at: string | null
+          sender_id: string
+          sender_role: Database["public"]["Enums"]["app_role"]
+        }
+        Insert: {
+          body: string
+          booking_id: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id: string
+          sender_role: Database["public"]["Enums"]["app_role"]
+        }
+        Update: {
+          body?: string
+          booking_id?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id?: string
+          sender_role?: Database["public"]["Enums"]["app_role"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_messages_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       booking_status_history: {
         Row: {
           actor_role: Database["public"]["Enums"]["app_role"] | null
@@ -313,13 +351,16 @@ export type Database = {
           customer_id: string
           discount_paise: number
           id: string
+          partner_eta_at: string | null
           partner_id: string | null
+          partner_note: string | null
           rescheduled_from: Json | null
           scheduled_date: string
           slot_end: string
           slot_start: string
           special_instructions: string | null
           status: Database["public"]["Enums"]["booking_status"]
+          subscription_id: string | null
           subtotal_paise: number
           total_paise: number
           updated_at: string
@@ -338,13 +379,16 @@ export type Database = {
           customer_id: string
           discount_paise?: number
           id?: string
+          partner_eta_at?: string | null
           partner_id?: string | null
+          partner_note?: string | null
           rescheduled_from?: Json | null
           scheduled_date: string
           slot_end: string
           slot_start: string
           special_instructions?: string | null
           status?: Database["public"]["Enums"]["booking_status"]
+          subscription_id?: string | null
           subtotal_paise?: number
           total_paise?: number
           updated_at?: string
@@ -363,13 +407,16 @@ export type Database = {
           customer_id?: string
           discount_paise?: number
           id?: string
+          partner_eta_at?: string | null
           partner_id?: string | null
+          partner_note?: string | null
           rescheduled_from?: Json | null
           scheduled_date?: string
           slot_end?: string
           slot_start?: string
           special_instructions?: string | null
           status?: Database["public"]["Enums"]["booking_status"]
+          subscription_id?: string | null
           subtotal_paise?: number
           total_paise?: number
           updated_at?: string
@@ -387,6 +434,13 @@ export type Database = {
             columns: ["coupon_id"]
             isOneToOne: false
             referencedRelation: "coupons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
             referencedColumns: ["id"]
           },
         ]
@@ -899,6 +953,30 @@ export type Database = {
         }
         Relationships: []
       }
+      push_tokens: {
+        Row: {
+          created_at: string
+          id: string
+          platform: string
+          token: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          platform?: string
+          token: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          platform?: string
+          token?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       refunds: {
         Row: {
           amount_paise: number
@@ -1086,6 +1164,78 @@ export type Database = {
           },
         ]
       }
+      subscriptions: {
+        Row: {
+          address_id: string | null
+          category_slug: string | null
+          created_at: string
+          customer_id: string
+          estimated_total_paise: number
+          frequency: Database["public"]["Enums"]["subscription_frequency"]
+          id: string
+          last_booking_id: string | null
+          last_run_at: string | null
+          lines: Json
+          next_run_date: string
+          slot_end: string
+          slot_start: string
+          state: Database["public"]["Enums"]["subscription_state"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          address_id?: string | null
+          category_slug?: string | null
+          created_at?: string
+          customer_id: string
+          estimated_total_paise?: number
+          frequency: Database["public"]["Enums"]["subscription_frequency"]
+          id?: string
+          last_booking_id?: string | null
+          last_run_at?: string | null
+          lines: Json
+          next_run_date: string
+          slot_end: string
+          slot_start: string
+          state?: Database["public"]["Enums"]["subscription_state"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          address_id?: string | null
+          category_slug?: string | null
+          created_at?: string
+          customer_id?: string
+          estimated_total_paise?: number
+          frequency?: Database["public"]["Enums"]["subscription_frequency"]
+          id?: string
+          last_booking_id?: string | null
+          last_run_at?: string | null
+          lines?: Json
+          next_run_date?: string
+          slot_end?: string
+          slot_start?: string
+          state?: Database["public"]["Enums"]["subscription_state"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_address_id_fkey"
+            columns: ["address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_last_booking_id_fkey"
+            columns: ["last_booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       support_tickets: {
         Row: {
           admin_reply: string | null
@@ -1234,6 +1384,8 @@ export type Database = {
         | "rejected"
         | "processing"
         | "completed"
+      subscription_frequency: "weekly" | "biweekly" | "monthly"
+      subscription_state: "active" | "paused" | "cancelled"
       withdrawal_status: "requested" | "approved" | "rejected" | "paid"
     }
     CompositeTypes: {
@@ -1397,6 +1549,8 @@ export const Constants = {
         "processing",
         "completed",
       ],
+      subscription_frequency: ["weekly", "biweekly", "monthly"],
+      subscription_state: ["active", "paused", "cancelled"],
       withdrawal_status: ["requested", "approved", "rejected", "paid"],
     },
   },
