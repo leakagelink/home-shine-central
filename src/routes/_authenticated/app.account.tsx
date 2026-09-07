@@ -52,6 +52,15 @@ function AccountPage() {
       <main className="flex-1 space-y-5 px-4 sm:px-5 pt-6 pb-8">
         <AddressManager />
 
+        <button
+          type="button"
+          onClick={() => navigate({ to: "/app/plans" })}
+          className="surface flex w-full items-center gap-2 p-4 text-left text-sm font-semibold"
+        >
+          <Repeat className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" /> Repeat cleaning
+          plans
+        </button>
+
         <section className="surface p-4">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
             <KeyRound className="h-4 w-4 text-primary" aria-hidden="true" /> Change PIN

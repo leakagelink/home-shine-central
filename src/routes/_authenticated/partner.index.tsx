@@ -16,6 +16,7 @@ import {
   submitKyc,
 } from "@/lib/partner.functions";
 import { rupees, shortDate, timeLabel, STATUS_LABELS } from "@/lib/format";
+import { PartnerJobTools } from "@/components/PartnerJobTools";
 
 export const Route = createFileRoute("/_authenticated/partner/")({
   head: () => ({
@@ -289,6 +290,9 @@ function PartnerDashboard() {
                       {busy && <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />}
                       {STEP_LABEL[next]}
                     </button>
+                  )}
+                  {!["completed", "cancelled"].includes(j.status) && (
+                    <PartnerJobTools bookingId={j.id} partnerId={user?.id} />
                   )}
                 </article>
               );
