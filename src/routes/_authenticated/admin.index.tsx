@@ -288,7 +288,7 @@ function AdminDashboard() {
                             refresh();
                           }
                         }}
-                        className="rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-50"
+                        className="shrink-0 rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-50"
                       >
                         Assign
                       </button>
@@ -309,7 +309,7 @@ function AdminDashboard() {
             {(data?.refunds ?? []).map((r) => (
               <div
                 key={r.id}
-                className="surface flex items-center justify-between gap-3 p-4 text-xs"
+                className="surface flex flex-wrap items-center justify-between gap-3 p-4 text-xs"
               >
                 <div>
                   <p className="font-semibold">{rupees(r.amount_paise)}</p>
@@ -363,7 +363,7 @@ function AdminDashboard() {
             {(data?.withdrawals ?? []).map((w) => (
               <div
                 key={w.id}
-                className="surface flex items-center justify-between gap-3 p-4 text-xs"
+                className="surface flex flex-wrap items-center justify-between gap-3 p-4 text-xs"
               >
                 <div>
                   <p className="font-semibold">{rupees(w.amount_paise)}</p>
