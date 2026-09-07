@@ -34,7 +34,9 @@ export function usePushNotifications(enabled: boolean) {
         ]);
         const options = JSON.parse(config.firebaseConfig) as Record<string, string>;
         const app = getApps()[0] ?? initializeApp(options);
-        const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js");
+        const registration = await navigator.serviceWorker.register(
+          `/firebase-messaging-sw.js?config=${encodeURIComponent(config.firebaseConfig)}`,
+        );
         const token = await getToken(getMessaging(app), {
           vapidKey: config.vapidKey,
           serviceWorkerRegistration: registration,

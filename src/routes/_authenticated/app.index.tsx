@@ -6,6 +6,7 @@ import { CustomerNav, PageHeader } from "@/components/CustomerNav";
 import { categoriesQuery, myBookingsQuery } from "@/lib/catalog";
 import { rupees, shortDate, STATUS_LABELS, ACTIVE_STATUSES } from "@/lib/format";
 import { useAuth } from "@/hooks/useAuth";
+import { usePushNotifications } from "@/lib/usePushNotifications";
 
 export const Route = createFileRoute("/_authenticated/app/")({
   head: () => ({
