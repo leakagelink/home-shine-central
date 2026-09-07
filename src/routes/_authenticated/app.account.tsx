@@ -2,11 +2,11 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { LogOut, MapPin, KeyRound, LifeBuoy, Trash2 } from "lucide-react";
+import { LogOut, KeyRound, LifeBuoy, Repeat } from "lucide-react";
 import { toast } from "sonner";
 
 import { CustomerNav, PageHeader } from "@/components/CustomerNav";
-import { addressesQuery } from "@/lib/catalog";
+import { AddressManager } from "@/components/AddressManager";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { changePin } from "@/lib/auth.functions";
@@ -28,7 +28,6 @@ function AccountPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const addresses = useQuery(addressesQuery);
   const updatePin = useServerFn(changePin);
   const support = useServerFn(raiseSupportTicket);
 
@@ -51,44 +50,7 @@ function AccountPage() {
       />
 
       <main className="flex-1 space-y-5 px-4 sm:px-5 pt-6 pb-8">
-        <section className="surface p-4">
-          <h2 className="flex items-center gap-2 text-sm font-semibold">
-            <MapPin className="h-4 w-4 text-primary" aria-hidden="true" /> Saved addresses
-          </h2>
-          <div className="mt-3 space-y-2 text-xs">
-            {(addresses.data ?? []).length === 0 && (
-              <p className="text-muted-foreground">
-                No addresses saved yet — you can add one while booking.
-              </p>
-            )}
-            {(addresses.data ?? []).map((a) => (
-              <div
-                key={a.id}
-                className="flex items-start justify-between gap-3 rounded-xl border border-border p-3"
-              >
-                <span className="min-w-0 break-words">
-                  <span className="block font-semibold">{a.label ?? "Address"}</span>
-                  <span className="text-muted-foreground">
-                    {[a.house_no, a.building, a.street, a.area, a.city, a.pincode]
-                      .filter(Boolean)
-                      .join(", ")}
-                  </span>
-                </span>
-                <button
-                  type="button"
-                  aria-label="Delete address"
-                  className="shrink-0"
-                  onClick={async () => {
-                    await supabase.from("addresses").delete().eq("id", a.id);
-                    queryClient.invalidateQueries({ queryKey: ["addresses"] });
-                  }}
-                >
-                  <Trash2 className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
+        <AddressManager />
 
         <section className="surface p-4">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
