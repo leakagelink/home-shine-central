@@ -4,10 +4,13 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const ACTIVE_STATES = [
   "pending_payment",
+  "payment_verified",
   "confirmed",
-  "assigned",
-  "partner_on_the_way",
-  "in_progress",
+  "partner_assigned",
+  "partner_accepted",
+  "on_the_way",
+  "arrived",
+  "work_started",
 ] as const;
 
 /**
@@ -26,7 +29,7 @@ export const deleteMyAccount = createServerFn({ method: "POST" })
       .from("bookings")
       .select("id")
       .eq("customer_id", userId)
-      .in("status", ACTIVE_STATES as unknown as string[])
+      .in("status", ACTIVE_STATES)
       .limit(1);
 
     if (open && open.length > 0) {
@@ -45,7 +48,7 @@ export const deleteMyAccount = createServerFn({ method: "POST" })
     await supabaseAdmin.from("auth_credentials").delete().eq("user_id", userId);
     await supabaseAdmin
       .from("subscriptions")
-      .update({ status: "cancelled" })
+      .update({ state: "cancelled" })
       .eq("customer_id", userId);
 
     // Keep the row for financial/booking records, but strip identifying fields.
