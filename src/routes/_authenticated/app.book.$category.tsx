@@ -107,7 +107,7 @@ function BookCategory() {
                         1,
                       )
                     }
-                    className="animate-pop rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-40"
+                    className="animate-pop shrink-0 rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-40"
                   >
                     Add
                   </button>
