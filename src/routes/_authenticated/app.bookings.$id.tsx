@@ -13,6 +13,7 @@ import {
   TrackingCard,
   useBookingRealtime,
 } from "@/components/BookingLive";
+import { RepeatPlanCard } from "@/components/BookingActions";
 import { cancelBooking, rescheduleBooking, submitReview } from "@/lib/booking.functions";
 import { rupees, shortDate, timeLabel, STATUS_LABELS, TIME_SLOTS, nextDates } from "@/lib/format";
 
@@ -165,6 +166,16 @@ function BookingDetail() {
               </p>
             ))}
           </section>
+        )}
+
+        {["work_completed", "review_pending", "completed"].includes(data.status) && (
+          <RepeatPlanCard
+            items={data.booking_items ?? []}
+            slotStart={data.slot_start}
+            slotEnd={data.slot_end}
+            addressId={data.address_id}
+            title={`${data.category_slug ?? "Cleaning"} plan`}
+          />
         )}
 
         {canReview && (
