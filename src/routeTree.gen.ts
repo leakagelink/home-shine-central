@@ -22,6 +22,7 @@ import { Route as AuthenticatedPartnerIndexRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppBookCategoryRouteImport } from './routes/_authenticated/app.book.$category'
 import { Route as AuthenticatedAppBookingsIndexRouteImport } from './routes/_authenticated/app.bookings.index'
 import { Route as AuthenticatedAppBookingsIdRouteImport } from './routes/_authenticated/app.bookings.$id'
+import { Route as ApiPublicCronRecurringRouteImport } from './routes/api/public/cron/recurring'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -93,6 +94,11 @@ const AuthenticatedAppBookingsIdRoute =
     path: '/app/bookings/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicCronRecurringRoute = ApiPublicCronRecurringRouteImport.update({
+  id: '/api/public/cron/recurring',
+  path: '/api/public/cron/recurring',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/partner/': typeof AuthenticatedPartnerIndexRoute
   '/app/book/$category': typeof AuthenticatedAppBookCategoryRoute
   '/app/bookings/$id': typeof AuthenticatedAppBookingsIdRoute
+  '/api/public/cron/recurring': typeof ApiPublicCronRecurringRoute
   '/app/bookings/': typeof AuthenticatedAppBookingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -120,6 +127,7 @@ export interface FileRoutesByTo {
   '/partner': typeof AuthenticatedPartnerIndexRoute
   '/app/book/$category': typeof AuthenticatedAppBookCategoryRoute
   '/app/bookings/$id': typeof AuthenticatedAppBookingsIdRoute
+  '/api/public/cron/recurring': typeof ApiPublicCronRecurringRoute
   '/app/bookings': typeof AuthenticatedAppBookingsIndexRoute
 }
 export interface FileRoutesById {
@@ -136,6 +144,7 @@ export interface FileRoutesById {
   '/_authenticated/partner/': typeof AuthenticatedPartnerIndexRoute
   '/_authenticated/app/book/$category': typeof AuthenticatedAppBookCategoryRoute
   '/_authenticated/app/bookings/$id': typeof AuthenticatedAppBookingsIdRoute
+  '/api/public/cron/recurring': typeof ApiPublicCronRecurringRoute
   '/_authenticated/app/bookings/': typeof AuthenticatedAppBookingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -152,6 +161,7 @@ export interface FileRouteTypes {
     | '/partner/'
     | '/app/book/$category'
     | '/app/bookings/$id'
+    | '/api/public/cron/recurring'
     | '/app/bookings/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/partner'
     | '/app/book/$category'
     | '/app/bookings/$id'
+    | '/api/public/cron/recurring'
     | '/app/bookings'
   id:
     | '__root__'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/_authenticated/partner/'
     | '/_authenticated/app/book/$category'
     | '/_authenticated/app/bookings/$id'
+    | '/api/public/cron/recurring'
     | '/_authenticated/app/bookings/'
   fileRoutesById: FileRoutesById
 }
@@ -189,6 +201,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   SetupRoute: typeof SetupRoute
+  ApiPublicCronRecurringRoute: typeof ApiPublicCronRecurringRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -284,6 +297,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppBookingsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/cron/recurring': {
+      id: '/api/public/cron/recurring'
+      path: '/api/public/cron/recurring'
+      fullPath: '/api/public/cron/recurring'
+      preLoaderRoute: typeof ApiPublicCronRecurringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -319,6 +339,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   SetupRoute: SetupRoute,
+  ApiPublicCronRecurringRoute: ApiPublicCronRecurringRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
