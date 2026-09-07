@@ -120,6 +120,7 @@ function AdminDashboard() {
         <button
           type="button"
           aria-label="Sign out"
+          className="shrink-0 rounded-xl p-2"
           onClick={async () => {
             await queryClient.cancelQueries();
             queryClient.clear();
@@ -129,6 +130,7 @@ function AdminDashboard() {
         >
           <LogOut className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
         </button>
+
       </header>
 
       <main className="mx-auto max-w-4xl space-y-6 px-4 sm:px-5 pt-6">
