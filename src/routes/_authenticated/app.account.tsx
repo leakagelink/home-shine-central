@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { LogOut, KeyRound, LifeBuoy, Repeat } from "lucide-react";
+import { LogOut, KeyRound, LifeBuoy, Repeat, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { CustomerNav, PageHeader } from "@/components/CustomerNav";
@@ -10,6 +10,8 @@ import { AddressManager } from "@/components/AddressManager";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { changePin } from "@/lib/auth.functions";
+import { deleteMyAccount } from "@/lib/account.functions";
+import { LegalFooter } from "@/components/LegalPage";
 import { raiseSupportTicket } from "@/lib/booking.functions";
 
 export const Route = createFileRoute("/_authenticated/app/account")({
@@ -30,10 +32,12 @@ function AccountPage() {
   const queryClient = useQueryClient();
   const updatePin = useServerFn(changePin);
   const support = useServerFn(raiseSupportTicket);
+  const removeAccount = useServerFn(deleteMyAccount);
 
   const [pins, setPins] = useState({ currentPin: "", pin: "", confirmPin: "" });
   const [ticket, setTicket] = useState({ subject: "", message: "" });
   const [busy, setBusy] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState("");
 
   async function signOut() {
     await queryClient.cancelQueries();
@@ -140,6 +144,49 @@ function AccountPage() {
           </button>
         </section>
 
+        <section className="surface border-destructive/30 p-4">
+          <h2 className="flex items-center gap-2 text-sm font-semibold text-destructive">
+            <Trash2 className="h-4 w-4" aria-hidden="true" /> Delete account
+          </h2>
+          <p className="mt-2 text-xs text-muted-foreground">
+            This permanently removes your login, name, mobile number and saved addresses, and
+            cancels repeat plans. Anonymous invoice records are kept as required by law. Type DELETE
+            to confirm.
+          </p>
+          <input
+            placeholder="Type DELETE"
+            value={deleteConfirm}
+            onChange={(e) => setDeleteConfirm(e.target.value.toUpperCase())}
+            className="field-shell mt-3 w-full px-3 py-2.5 text-sm outline-none"
+          />
+          <button
+            type="button"
+            disabled={busy || deleteConfirm !== "DELETE"}
+            onClick={async () => {
+              setBusy(true);
+              try {
+                const res = await removeAccount({ data: { confirm: "DELETE" as const } });
+                if (!res.ok) {
+                  toast.error(res.message);
+                  return;
+                }
+                toast.success("Your account has been deleted.");
+                await queryClient.cancelQueries();
+                queryClient.clear();
+                await supabase.auth.signOut();
+                navigate({ to: "/", replace: true });
+              } catch {
+                toast.error("Could not delete the account. Please try again.");
+              } finally {
+                setBusy(false);
+              }
+            }}
+            className="mt-2 w-full rounded-xl bg-destructive px-4 py-2.5 text-xs font-semibold text-destructive-foreground disabled:opacity-50"
+          >
+            Delete my account permanently
+          </button>
+        </section>
+
         <button
           type="button"
           onClick={signOut}
@@ -148,6 +195,10 @@ function AccountPage() {
           <LogOut className="h-4 w-4" aria-hidden="true" /> Sign out
         </button>
       </main>
+
+      <div className="px-4 pb-24">
+        <LegalFooter />
+      </div>
 
       <CustomerNav />
     </div>
