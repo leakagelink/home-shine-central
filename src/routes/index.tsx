@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { AuthFlow } from "@/components/AuthFlow";
+import { LegalFooter } from "@/components/LegalPage";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,5 +24,12 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return <AuthFlow />;
+  return (
+    <>
+      <AuthFlow />
+      <footer className="px-4 pb-8 pt-2">
+        <LegalFooter />
+      </footer>
+    </>
+  );
 }
