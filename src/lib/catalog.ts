@@ -140,3 +140,30 @@ export const notificationsQuery = queryOptions({
     return data ?? [];
   },
 });
+
+export const subscriptionsQuery = queryOptions({
+  queryKey: ["subscriptions"],
+  queryFn: async () => {
+    const { data, error } = await supabase
+      .from("subscriptions")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+    return data ?? [];
+  },
+});
+
+export function bookingMessagesQuery(bookingId: string) {
+  return queryOptions({
+    queryKey: ["booking-messages", bookingId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("booking_messages")
+        .select("id, sender_id, sender_role, body, created_at")
+        .eq("booking_id", bookingId)
+        .order("created_at");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
