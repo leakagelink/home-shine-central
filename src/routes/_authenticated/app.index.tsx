@@ -35,6 +35,7 @@ const ICONS: Record<string, typeof Bath> = {
 
 function Dashboard() {
   const { user } = useAuth();
+  usePushNotifications(Boolean(user));
   const categories = useQuery(categoriesQuery);
   const bookings = useQuery(myBookingsQuery);
 
