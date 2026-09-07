@@ -3,44 +3,36 @@ import { Sparkles } from "lucide-react";
 
 /**
  * Branded splash overlay shown on first app load.
- * Renders above all content, animates in, holds briefly, then fades out.
- * Shown once per browser session (sessionStorage) so navigation doesn't repeat it.
+ * The fade-out is driven entirely by CSS animation (robust against remounts/HMR);
+ * a best-effort JS timer unmounts the node afterward and records the session flag.
  */
 const SPLASH_KEY = "spotless-splash-seen";
 const HOLD_MS = 1400;
 const FADE_MS = 650;
 
 export function SplashScreen() {
-  const [visible, setVisible] = useState(true);
-  const [leaving, setLeaving] = useState(false);
+  const [mounted, setMounted] = useState(true);
 
   useEffect(() => {
-    // Respect reduced motion: shorten hold.
     const reduce =
       typeof window !== "undefined" &&
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     const hold = reduce ? 500 : HOLD_MS;
+    const total = hold + FADE_MS + 120;
 
-    const leaveTimer = window.setTimeout(() => setLeaving(true), hold);
-    const hideTimer = window.setTimeout(
-      () => {
-        setVisible(false);
-        try {
-          sessionStorage.setItem(SPLASH_KEY, "1");
-        } catch {
-          /* sessionStorage unavailable — ignore */
-        }
-      },
-      hold + FADE_MS,
-    );
+    const timer = window.setTimeout(() => {
+      setMounted(false);
+      try {
+        sessionStorage.setItem(SPLASH_KEY, "1");
+      } catch {
+        /* ignore */
+      }
+    }, total);
 
-    return () => {
-      window.clearTimeout(leaveTimer);
-      window.clearTimeout(hideTimer);
-    };
+    return () => window.clearTimeout(timer);
   }, []);
 
-  // If already seen this session, render nothing.
+  // Skip entirely if already shown this session.
   if (typeof window !== "undefined") {
     try {
       if (sessionStorage.getItem(SPLASH_KEY)) return null;
@@ -49,14 +41,14 @@ export function SplashScreen() {
     }
   }
 
-  if (!visible) return null;
+  if (!mounted) return null;
 
   return (
     <div
       role="status"
       aria-live="polite"
       aria-label="Loading SqueakClean"
-      className={`splash-overlay ${leaving ? "splash-leaving" : ""}`}
+      className="splash-overlay"
     >
       <div className="splash-inner">
         <div className="splash-logo">
