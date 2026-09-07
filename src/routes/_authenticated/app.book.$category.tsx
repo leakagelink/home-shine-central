@@ -112,7 +112,7 @@ function BookCategory() {
                     Add
                   </button>
                 ) : (
-                  <div className="flex items-center gap-2 rounded-xl bg-secondary px-2 py-1.5">
+                  <div className="flex shrink-0 items-center gap-2 rounded-xl bg-secondary px-2 py-1.5">
                     <button
                       type="button"
                       aria-label={`Remove one ${s.name}`}
