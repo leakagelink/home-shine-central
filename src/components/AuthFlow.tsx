@@ -127,7 +127,7 @@ export function AuthFlow({
 
   return (
     <main className="min-h-screen overflow-hidden bg-background">
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-5 pb-10 pt-8 sm:max-w-lg sm:justify-center sm:py-12">
+      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-4 sm:px-5 pb-10 pt-8 sm:max-w-lg sm:justify-center sm:py-12">
         <header className="animate-rise">
           <div className="flex items-center gap-3">
             <span className="brand-mark inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
@@ -158,7 +158,7 @@ export function AuthFlow({
                       setRole(r.value);
                       setStep("mobile");
                     }}
-                    className={`group premium-action flex min-h-24 w-full items-center justify-between rounded-2xl border px-5 py-4 text-left ${r.value === "customer" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-foreground hover:border-primary/30 hover:bg-secondary/40"}`}
+                    className={`group premium-action flex min-h-24 w-full items-center justify-between rounded-2xl border px-4 sm:px-5 py-4 text-left ${r.value === "customer" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-foreground hover:border-primary/30 hover:bg-secondary/40"}`}
                   >
                     <span>
                       <span className="block text-lg font-semibold">{r.label} Sign In</span>

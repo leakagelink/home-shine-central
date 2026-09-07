@@ -50,7 +50,7 @@ function AccountPage() {
         subtitle={`+91 ${(user?.mobile ?? "").replace("+91", "")}`.trim()}
       />
 
-      <main className="flex-1 space-y-5 px-5 pt-6 pb-8">
+      <main className="flex-1 space-y-5 px-4 sm:px-5 pt-6 pb-8">
         <section className="surface p-4">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
             <MapPin className="h-4 w-4 text-primary" aria-hidden="true" /> Saved addresses

@@ -59,7 +59,7 @@ function BookingDetail() {
 
   return (
     <div className="min-h-screen bg-background pb-12">
-      <header className="px-5 pt-8">
+      <header className="px-4 sm:px-5 pt-8">
         <Link
           to="/app/bookings"
           className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground"
@@ -76,7 +76,7 @@ function BookingDetail() {
         </p>
       </header>
 
-      <main className="space-y-5 px-5 pt-6">
+      <main className="space-y-5 px-4 sm:px-5 pt-6">
         <section className="surface p-4">
           <h2 className="text-sm font-semibold">What we're cleaning</h2>
           <ul className="mt-3 space-y-1.5 text-xs">

@@ -45,7 +45,7 @@ function BookCategory() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background pb-40">
-      <header className="px-5 pt-8">
+      <header className="px-4 sm:px-5 pt-8">
         <Link
           to="/app"
           className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground"
@@ -65,7 +65,7 @@ function BookCategory() {
         </p>
       )}
 
-      <main className="flex-1 px-5">
+      <main className="flex-1 px-4 sm:px-5">
         <section className="mt-6 space-y-3">
           {data.services.map((s) => {
             const qty = cart.quantityOf(s.id);
@@ -204,7 +204,7 @@ function BookCategory() {
       </main>
 
       {cart.itemCount > 0 && (
-        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-card/95 px-5 py-4 backdrop-blur">
+        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-card/95 px-4 sm:px-5 py-4 backdrop-blur">
           <div className="mx-auto flex max-w-lg items-center justify-between gap-4">
             <div>
               <p className="text-xs text-muted-foreground">
