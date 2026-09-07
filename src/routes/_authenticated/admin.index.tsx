@@ -248,21 +248,22 @@ function AdminDashboard() {
           <div className="mt-3 space-y-2">
             {(data?.bookings ?? []).map((b) => (
               <div key={b.id} className="surface p-4">
-                <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-                  <div>
+                <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
+                  <div className="min-w-0">
                     <p className="font-semibold">#{b.booking_number}</p>
-                    <p className="text-muted-foreground">
+                    <p className="break-words text-muted-foreground">
                       {STATUS_LABELS[b.status] ?? b.status} · {shortDate(b.scheduled_date)} ·{" "}
                       {rupees(b.total_paise)}
                     </p>
                   </div>
                   {["confirmed", "payment_verified", "partner_assigned"].includes(b.status) && (
-                    <div className="flex items-center gap-2">
+                    <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
                       <select
                         value={assignments[b.id] ?? ""}
                         onChange={(e) => setAssignments({ ...assignments, [b.id]: e.target.value })}
-                        className="field-shell px-2 py-1.5 text-xs outline-none"
+                        className="field-shell min-w-0 flex-1 px-2 py-2 text-xs outline-none sm:flex-none"
                       >
+
                         <option value="">Choose partner…</option>
                         {(data?.partners ?? [])
                           .filter((p) => p.kyc_state === "approved")
