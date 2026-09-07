@@ -103,7 +103,7 @@ export const myBookingsQuery = queryOptions({
     const { data, error } = await supabase
       .from("bookings")
       .select(
-        "id, booking_number, status, scheduled_date, slot_start, slot_end, total_paise, category_slug, created_at, booking_items(name, quantity, kind)",
+        "id, booking_number, status, scheduled_date, slot_start, slot_end, total_paise, category_slug, created_at, booking_items(id, name, quantity, kind, service_id, addon_id, unit_price_paise)",
       )
       .order("created_at", { ascending: false });
     if (error) throw error;

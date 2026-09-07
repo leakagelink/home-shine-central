@@ -13,6 +13,7 @@ type CartState = {
   lines: CartLine[];
   setQuantity: (line: Omit<CartLine, "quantity">, quantity: number) => void;
   quantityOf: (id: string) => number;
+  replaceLines: (next: CartLine[]) => void;
   clear: () => void;
   itemCount: number;
   servicesTotal: number;
@@ -60,6 +61,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           return next;
         }),
       quantityOf: (id) => lines.find((l) => l.id === id)?.quantity ?? 0,
+      replaceLines: (next) => setLines(next),
       clear: () => setLines([]),
       itemCount: lines.reduce((n, l) => n + l.quantity, 0),
       servicesTotal,
