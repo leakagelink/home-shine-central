@@ -111,11 +111,12 @@ function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background pb-12">
-      <header className="mx-auto flex w-full max-w-4xl animate-rise items-start justify-between gap-3 px-4 sm:px-5 pt-8">
-        <div>
-          <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">Admin workspace</p>
-          <h1 className="mt-2 text-4xl leading-none">Operations</h1>
+      <header className="mx-auto grid w-full max-w-4xl animate-rise grid-cols-[minmax(0,1fr)_auto] items-start gap-3 px-4 pt-7 sm:px-5 sm:pt-8">
+        <div className="min-w-0">
+          <p className="truncate text-[0.7rem] font-semibold uppercase tracking-widest text-primary">Admin workspace</p>
+          <h1 className="mt-2 text-3xl leading-tight sm:text-4xl sm:leading-none">Operations</h1>
         </div>
+
         <button
           type="button"
           aria-label="Sign out"
