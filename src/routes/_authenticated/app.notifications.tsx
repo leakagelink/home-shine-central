@@ -49,7 +49,7 @@ function NotificationsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <PageHeader title="Updates" subtitle="Job progress, payments and refunds" />
-      <main className="flex-1 space-y-3 px-5 pt-6 pb-8">
+      <main className="flex-1 space-y-3 px-4 sm:px-5 pt-6 pb-8">
         {isLoading && <p className="text-sm text-muted-foreground">Loading…</p>}
         {!isLoading && (data ?? []).length === 0 && (
           <p className="surface flex items-center gap-3 p-5 text-sm text-muted-foreground">

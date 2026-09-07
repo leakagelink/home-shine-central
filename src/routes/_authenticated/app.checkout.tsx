@@ -127,7 +127,7 @@ function Checkout() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background pb-40">
-      <header className="px-5 pt-8">
+      <header className="px-4 sm:px-5 pt-8">
         <button
           type="button"
           onClick={() => navigate({ to: "/app" })}
@@ -138,7 +138,7 @@ function Checkout() {
         <h1 className="mt-4 text-2xl font-bold">Confirm booking</h1>
       </header>
 
-      <main className="flex-1 space-y-6 px-5 pt-6">
+      <main className="flex-1 space-y-6 px-4 sm:px-5 pt-6">
         <section className="surface p-4">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
             <MapPin className="h-4 w-4 text-primary" aria-hidden="true" /> Service address
@@ -340,7 +340,7 @@ function Checkout() {
         </section>
       </main>
 
-      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-card/95 px-5 py-4 backdrop-blur">
+      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-card/95 px-4 sm:px-5 py-4 backdrop-blur">
         <div className="mx-auto flex max-w-lg items-center justify-between gap-4">
           <div>
             <p className="text-xs text-muted-foreground">Payable</p>

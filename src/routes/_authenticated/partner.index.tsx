@@ -120,7 +120,7 @@ function PartnerDashboard() {
 
   return (
     <div className="min-h-screen bg-background pb-12">
-      <header className="mx-auto flex w-full max-w-4xl animate-rise items-start justify-between gap-3 px-5 pt-8">
+      <header className="mx-auto flex w-full max-w-4xl animate-rise items-start justify-between gap-3 px-4 sm:px-5 pt-8">
         <div>
           <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">Partner workspace</p>
           <h1 className="mt-2 text-4xl leading-none">{user?.fullName ?? "Your jobs"}</h1>
@@ -143,7 +143,7 @@ function PartnerDashboard() {
         </button>
       </header>
 
-      <main className="mx-auto max-w-2xl space-y-5 px-5 pt-6">
+      <main className="mx-auto max-w-2xl space-y-5 px-4 sm:px-5 pt-6">
         <section className="surface flex animate-rise items-center justify-between gap-3 border-l-4 border-primary p-4">
           <div>
             <p className="text-sm font-semibold">Available for jobs</p>

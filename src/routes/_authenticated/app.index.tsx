@@ -48,7 +48,7 @@ function Dashboard() {
         subtitle="What needs a deep clean today?"
       />
 
-      <main className="mx-auto w-full max-w-4xl flex-1 px-5 pb-8">
+      <main className="mx-auto w-full max-w-4xl flex-1 px-4 sm:px-5 pb-8">
         {active.length > 0 && (
           <Link
             to="/app/bookings/$id"
