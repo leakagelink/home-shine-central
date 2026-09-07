@@ -16,6 +16,8 @@ import {
   submitKyc,
 } from "@/lib/partner.functions";
 import { rupees, shortDate, timeLabel, STATUS_LABELS } from "@/lib/format";
+import { PartnerJobTools } from "@/components/PartnerJobTools";
+import { usePushNotifications } from "@/lib/usePushNotifications";
 
 export const Route = createFileRoute("/_authenticated/partner/")({
   head: () => ({
@@ -50,6 +52,7 @@ const STEP_LABEL: Record<string, string> = {
 
 function PartnerDashboard() {
   const { user, isPartner } = useAuth();
+  usePushNotifications(Boolean(user));
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -289,6 +292,9 @@ function PartnerDashboard() {
                       {busy && <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />}
                       {STEP_LABEL[next]}
                     </button>
+                  )}
+                  {!["completed", "cancelled"].includes(j.status) && (
+                    <PartnerJobTools bookingId={j.id} partnerId={user?.id} />
                   )}
                 </article>
               );
