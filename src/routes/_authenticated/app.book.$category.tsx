@@ -204,23 +204,24 @@ function BookCategory() {
       </main>
 
       {cart.itemCount > 0 && (
-        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-card/95 px-4 sm:px-5 py-4 backdrop-blur">
-          <div className="mx-auto flex max-w-lg items-center justify-between gap-4">
-            <div>
+        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-card/95 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 backdrop-blur sm:px-5">
+          <div className="mx-auto grid max-w-lg grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+            <div className="min-w-0">
               <p className="text-xs text-muted-foreground">
                 {cart.itemCount} item{cart.itemCount > 1 ? "s" : ""}
               </p>
-              <p className="text-lg font-bold">{rupees(cart.total)}</p>
+              <p className="truncate text-lg font-bold">{rupees(cart.total)}</p>
             </div>
             <button
               type="button"
               onClick={() => navigate({ to: "/app/checkout" })}
-              className="rounded-2xl bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground"
+              className="shrink-0 rounded-2xl bg-primary px-5 py-3.5 text-sm font-semibold text-primary-foreground sm:px-6"
             >
               Choose slot
             </button>
           </div>
         </div>
+
       )}
     </div>
   );
