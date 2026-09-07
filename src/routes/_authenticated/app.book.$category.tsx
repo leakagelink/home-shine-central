@@ -71,7 +71,8 @@ function BookCategory() {
             const qty = cart.quantityOf(s.id);
             return (
               <article key={s.id} className="surface flex items-start gap-3 p-4">
-                <div className="flex-1">
+                <div className="min-w-0 flex-1">
+
                   <h2 className="text-sm font-semibold">{s.name}</h2>
                   {s.description && (
                     <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
