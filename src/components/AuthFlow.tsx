@@ -159,16 +159,17 @@ export function AuthFlow({
                       setRole(r.value);
                       setStep("mobile");
                     }}
-                    className={`group premium-action flex min-h-24 w-full items-center justify-between rounded-2xl border px-4 sm:px-5 py-4 text-left ${r.value === "customer" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-foreground hover:border-primary/30 hover:bg-secondary/40"}`}
+                    className={`group premium-action grid min-h-20 w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border px-4 py-4 text-left sm:min-h-24 sm:px-5 ${r.value === "customer" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-foreground hover:border-primary/30 hover:bg-secondary/40"}`}
                   >
-                    <span>
-                      <span className="block text-lg font-semibold">{r.label} Sign In</span>
+                    <span className="min-w-0">
+                      <span className="block truncate text-base font-semibold sm:text-lg">{r.label} Sign In</span>
                       <span className={`mt-1 block text-xs ${r.value === "customer" ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{r.blurb}</span>
                     </span>
-                    <span className={`inline-flex h-10 w-10 items-center justify-center rounded-full transition-transform group-hover:translate-x-1 ${r.value === "customer" ? "bg-primary-foreground/10" : "bg-secondary"}`}>
+                    <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-transform group-hover:translate-x-1 ${r.value === "customer" ? "bg-primary-foreground/10" : "bg-secondary"}`}>
                       <ArrowLeft className="h-4 w-4 rotate-180" aria-hidden="true" />
                     </span>
                   </button>
+
                 ))}
               </div>
             </div>
