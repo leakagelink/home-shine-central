@@ -19,7 +19,7 @@ export function CustomerNav() {
               activeOptions={{ exact: to === "/app" }}
               activeProps={{ className: "bg-secondary text-primary shadow-sm" }}
               inactiveProps={{ className: "text-muted-foreground" }}
-              className="my-1.5 flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 text-[0.68rem] font-semibold hover:bg-secondary/60"
+              className="my-1.5 flex min-h-14 w-full min-w-0 flex-col items-center justify-center gap-1 truncate rounded-xl px-1 text-[0.65rem] font-semibold hover:bg-secondary/60 sm:text-[0.68rem]"
             >
               <Icon className="h-5 w-5" aria-hidden="true" />
               {label}
