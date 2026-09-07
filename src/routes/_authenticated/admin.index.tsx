@@ -111,12 +111,10 @@ function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background pb-12">
-      <header className="flex items-start justify-between gap-3 px-5 pt-8">
+      <header className="mx-auto flex w-full max-w-4xl animate-rise items-start justify-between gap-3 px-5 pt-8">
         <div>
-          <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">
-            Admin
-          </p>
-          <h1 className="mt-1 text-2xl font-bold">Operations</h1>
+          <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">Admin workspace</p>
+          <h1 className="mt-2 text-4xl leading-none">Operations</h1>
         </div>
         <button
           type="button"
@@ -140,19 +138,17 @@ function AdminDashboard() {
             ["Revenue", rupees(stats?.revenuePaise ?? 0)],
             ["Partners", stats?.partners ?? 0],
           ].map(([label, value]) => (
-            <div key={String(label)} className="surface p-4">
+             <div key={String(label)} className="surface stagger-item border-t-2 border-primary p-4">
               <p className="text-[0.68rem] uppercase tracking-widest text-muted-foreground">
                 {label}
               </p>
-              <p className="mt-1 text-lg font-bold">{value}</p>
+               <p className="mt-2 text-2xl font-semibold">{value}</p>
             </div>
           ))}
         </section>
 
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-            Add a partner
-          </h2>
+          <h2 className="text-2xl">Add a partner</h2>
           <div className="surface mt-3 space-y-3 p-4">
             <div className="grid gap-3 sm:grid-cols-2">
               <input
@@ -188,7 +184,7 @@ function AdminDashboard() {
             </p>
             <button
               type="button"
-              className="rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-50"
+              className="premium-action rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-50"
               disabled={busy}
               onClick={handleCreatePartner}
             >
@@ -198,9 +194,7 @@ function AdminDashboard() {
         </section>
 
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-            Verification requests
-          </h2>
+          <h2 className="text-2xl">Verification requests</h2>
           <div className="mt-3 space-y-2">
             {(data?.pendingKyc ?? []).length === 0 && (
               <p className="surface p-4 text-xs text-muted-foreground">Nothing pending.</p>
@@ -245,9 +239,7 @@ function AdminDashboard() {
         </section>
 
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-            Bookings
-          </h2>
+          <h2 className="text-2xl">Bookings</h2>
           <div className="mt-3 space-y-2">
             {(data?.bookings ?? []).map((b) => (
               <div key={b.id} className="surface p-4">
@@ -303,9 +295,7 @@ function AdminDashboard() {
         </section>
 
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-            Refund requests
-          </h2>
+          <h2 className="text-2xl">Refund requests</h2>
           <div className="mt-3 space-y-2">
             {(data?.refunds ?? []).length === 0 && (
               <p className="surface p-4 text-xs text-muted-foreground">Nothing pending.</p>
@@ -359,9 +349,7 @@ function AdminDashboard() {
         </section>
 
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-            Withdrawal requests
-          </h2>
+          <h2 className="text-2xl">Withdrawal requests</h2>
           <div className="mt-3 space-y-2">
             {(data?.withdrawals ?? []).length === 0 && (
               <p className="surface p-4 text-xs text-muted-foreground">Nothing pending.</p>
@@ -411,9 +399,7 @@ function AdminDashboard() {
         </section>
 
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-            Support tickets
-          </h2>
+          <h2 className="text-2xl">Support tickets</h2>
           <div className="mt-3 space-y-2">
             {(data?.tickets ?? []).length === 0 && (
               <p className="surface p-4 text-xs text-muted-foreground">No open tickets.</p>

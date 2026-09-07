@@ -120,12 +120,10 @@ function PartnerDashboard() {
 
   return (
     <div className="min-h-screen bg-background pb-12">
-      <header className="flex items-start justify-between gap-3 px-5 pt-8">
+      <header className="mx-auto flex w-full max-w-4xl animate-rise items-start justify-between gap-3 px-5 pt-8">
         <div>
-          <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">
-            Partner
-          </p>
-          <h1 className="mt-1 text-2xl font-bold">{user?.fullName ?? "Your jobs"}</h1>
+          <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">Partner workspace</p>
+          <h1 className="mt-2 text-4xl leading-none">{user?.fullName ?? "Your jobs"}</h1>
           <p className="mt-1 text-xs text-muted-foreground">
             Rating {Number(profile.data?.rating ?? 0).toFixed(1)} ·{" "}
             {profile.data?.jobs_completed ?? 0} jobs done
@@ -146,7 +144,7 @@ function PartnerDashboard() {
       </header>
 
       <main className="mx-auto max-w-2xl space-y-5 px-5 pt-6">
-        <section className="surface flex items-center justify-between gap-3 p-4">
+        <section className="surface flex animate-rise items-center justify-between gap-3 border-l-4 border-primary p-4">
           <div>
             <p className="text-sm font-semibold">Available for jobs</p>
             <p className="text-xs text-muted-foreground">Turn off when you're done for the day.</p>
@@ -204,9 +202,7 @@ function PartnerDashboard() {
         )}
 
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-            Open jobs
-          </h2>
+          <h2 className="text-2xl">Open jobs</h2>
           <div className="mt-3 space-y-3">
             {open.isLoading && <p className="text-xs text-muted-foreground">Loading…</p>}
             {(open.data?.jobs ?? []).length === 0 && !open.isLoading && (
@@ -247,9 +243,7 @@ function PartnerDashboard() {
         </section>
 
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-            My jobs
-          </h2>
+          <h2 className="text-2xl">My jobs</h2>
           <div className="mt-3 space-y-3">
             {(myJobs.data ?? []).map((j) => {
               const index = STEPS.indexOf(j.status as (typeof STEPS)[number]);
