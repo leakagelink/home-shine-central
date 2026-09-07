@@ -38,16 +38,16 @@ function BookingsList() {
             params={{ id: b.id }}
             className="surface flex items-center justify-between gap-3 p-4"
           >
-            <div>
+            <div className="min-w-0">
               <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">
                 {STATUS_LABELS[b.status] ?? b.status}
               </p>
               <p className="mt-1 text-sm font-semibold">#{b.booking_number}</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="break-words text-xs text-muted-foreground">
                 {shortDate(b.scheduled_date)} · {timeLabel(b.slot_start)} · {rupees(b.total_paise)}
               </p>
             </div>
-            <ChevronRight className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+            <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
           </Link>
         ))}
       </main>

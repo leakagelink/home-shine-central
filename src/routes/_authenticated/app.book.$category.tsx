@@ -71,7 +71,8 @@ function BookCategory() {
             const qty = cart.quantityOf(s.id);
             return (
               <article key={s.id} className="surface flex items-start gap-3 p-4">
-                <div className="flex-1">
+                <div className="min-w-0 flex-1">
+
                   <h2 className="text-sm font-semibold">{s.name}</h2>
                   {s.description && (
                     <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
@@ -106,12 +107,12 @@ function BookCategory() {
                         1,
                       )
                     }
-                    className="animate-pop rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-40"
+                    className="animate-pop shrink-0 rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-40"
                   >
                     Add
                   </button>
                 ) : (
-                  <div className="flex items-center gap-2 rounded-xl bg-secondary px-2 py-1.5">
+                  <div className="flex shrink-0 items-center gap-2 rounded-xl bg-secondary px-2 py-1.5">
                     <button
                       type="button"
                       aria-label={`Remove one ${s.name}`}
@@ -204,23 +205,24 @@ function BookCategory() {
       </main>
 
       {cart.itemCount > 0 && (
-        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-card/95 px-4 sm:px-5 py-4 backdrop-blur">
-          <div className="mx-auto flex max-w-lg items-center justify-between gap-4">
-            <div>
+        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-card/95 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 backdrop-blur sm:px-5">
+          <div className="mx-auto grid max-w-lg grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+            <div className="min-w-0">
               <p className="text-xs text-muted-foreground">
                 {cart.itemCount} item{cart.itemCount > 1 ? "s" : ""}
               </p>
-              <p className="text-lg font-bold">{rupees(cart.total)}</p>
+              <p className="truncate text-lg font-bold">{rupees(cart.total)}</p>
             </div>
             <button
               type="button"
               onClick={() => navigate({ to: "/app/checkout" })}
-              className="rounded-2xl bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground"
+              className="shrink-0 rounded-2xl bg-primary px-5 py-3.5 text-sm font-semibold text-primary-foreground sm:px-6"
             >
               Choose slot
             </button>
           </div>
         </div>
+
       )}
     </div>
   );

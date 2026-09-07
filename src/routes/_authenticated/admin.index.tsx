@@ -111,14 +111,16 @@ function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background pb-12">
-      <header className="mx-auto flex w-full max-w-4xl animate-rise items-start justify-between gap-3 px-4 sm:px-5 pt-8">
-        <div>
-          <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">Admin workspace</p>
-          <h1 className="mt-2 text-4xl leading-none">Operations</h1>
+      <header className="mx-auto grid w-full max-w-4xl animate-rise grid-cols-[minmax(0,1fr)_auto] items-start gap-3 px-4 pt-7 sm:px-5 sm:pt-8">
+        <div className="min-w-0">
+          <p className="truncate text-[0.7rem] font-semibold uppercase tracking-widest text-primary">Admin workspace</p>
+          <h1 className="mt-2 text-3xl leading-tight sm:text-4xl sm:leading-none">Operations</h1>
         </div>
+
         <button
           type="button"
           aria-label="Sign out"
+          className="shrink-0 rounded-xl p-2"
           onClick={async () => {
             await queryClient.cancelQueries();
             queryClient.clear();
@@ -128,6 +130,7 @@ function AdminDashboard() {
         >
           <LogOut className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
         </button>
+
       </header>
 
       <main className="mx-auto max-w-4xl space-y-6 px-4 sm:px-5 pt-6">
@@ -138,11 +141,12 @@ function AdminDashboard() {
             ["Revenue", rupees(stats?.revenuePaise ?? 0)],
             ["Partners", stats?.partners ?? 0],
           ].map(([label, value]) => (
-             <div key={String(label)} className="surface stagger-item border-t-2 border-primary p-4">
-              <p className="text-[0.68rem] uppercase tracking-widest text-muted-foreground">
+             <div key={String(label)} className="surface stagger-item min-w-0 border-t-2 border-primary p-3 sm:p-4">
+              <p className="truncate text-[0.65rem] uppercase tracking-widest text-muted-foreground sm:text-[0.68rem]">
                 {label}
               </p>
-               <p className="mt-2 text-2xl font-semibold">{value}</p>
+               <p className="mt-2 break-words text-xl font-semibold sm:text-2xl">{value}</p>
+
             </div>
           ))}
         </section>
@@ -200,14 +204,15 @@ function AdminDashboard() {
               <p className="surface p-4 text-xs text-muted-foreground">Nothing pending.</p>
             )}
             {(data?.pendingKyc ?? []).map((k) => (
-              <div key={k.id} className="surface flex items-center justify-between gap-3 p-4">
-                <div className="text-xs">
-                  <p className="font-semibold">
+              <div key={k.id} className="surface flex flex-wrap items-center justify-between gap-3 p-4">
+                <div className="min-w-0 text-xs">
+                  <p className="break-words font-semibold">
                     {k.doc_type} · ••{k.doc_number_masked}
                   </p>
                   <p className="text-muted-foreground">{shortDate(k.created_at)}</p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex shrink-0 gap-2">
+
                   {[true, false].map((approve) => (
                     <button
                       key={String(approve)}
@@ -243,21 +248,22 @@ function AdminDashboard() {
           <div className="mt-3 space-y-2">
             {(data?.bookings ?? []).map((b) => (
               <div key={b.id} className="surface p-4">
-                <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-                  <div>
+                <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
+                  <div className="min-w-0">
                     <p className="font-semibold">#{b.booking_number}</p>
-                    <p className="text-muted-foreground">
+                    <p className="break-words text-muted-foreground">
                       {STATUS_LABELS[b.status] ?? b.status} · {shortDate(b.scheduled_date)} ·{" "}
                       {rupees(b.total_paise)}
                     </p>
                   </div>
                   {["confirmed", "payment_verified", "partner_assigned"].includes(b.status) && (
-                    <div className="flex items-center gap-2">
+                    <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
                       <select
                         value={assignments[b.id] ?? ""}
                         onChange={(e) => setAssignments({ ...assignments, [b.id]: e.target.value })}
-                        className="field-shell px-2 py-1.5 text-xs outline-none"
+                        className="field-shell min-w-0 flex-1 px-2 py-2 text-xs outline-none sm:flex-none"
                       >
+
                         <option value="">Choose partner…</option>
                         {(data?.partners ?? [])
                           .filter((p) => p.kyc_state === "approved")
@@ -282,7 +288,7 @@ function AdminDashboard() {
                             refresh();
                           }
                         }}
-                        className="rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-50"
+                        className="shrink-0 rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-50"
                       >
                         Assign
                       </button>
@@ -303,7 +309,7 @@ function AdminDashboard() {
             {(data?.refunds ?? []).map((r) => (
               <div
                 key={r.id}
-                className="surface flex items-center justify-between gap-3 p-4 text-xs"
+                className="surface flex flex-wrap items-center justify-between gap-3 p-4 text-xs"
               >
                 <div>
                   <p className="font-semibold">{rupees(r.amount_paise)}</p>
@@ -357,7 +363,7 @@ function AdminDashboard() {
             {(data?.withdrawals ?? []).map((w) => (
               <div
                 key={w.id}
-                className="surface flex items-center justify-between gap-3 p-4 text-xs"
+                className="surface flex flex-wrap items-center justify-between gap-3 p-4 text-xs"
               >
                 <div>
                   <p className="font-semibold">{rupees(w.amount_paise)}</p>

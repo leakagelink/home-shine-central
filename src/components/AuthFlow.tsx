@@ -135,14 +135,15 @@ export function AuthFlow({
             </span>
             <span className="text-lg font-semibold text-foreground">SqueakClean</span>
           </div>
-          <h1 className="mt-8 text-[3.25rem] leading-[0.95] text-foreground sm:text-6xl">
+          <h1 className="mt-6 text-[clamp(2.25rem,11vw,3.25rem)] leading-[1.02] text-foreground sm:mt-8 sm:text-6xl">
             Pristine spaces,
             <br />
             <em className="text-primary">effortless living.</em>
           </h1>
-          <p className="mt-5 max-w-sm text-base leading-relaxed text-muted-foreground">
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-base">
             Premium home care with verified local experts, fixed prices and live updates.
           </p>
+
         </header>
 
         <section className="mt-8 animate-rise rounded-2xl border border-border bg-card p-5 shadow-sheet">
@@ -158,16 +159,17 @@ export function AuthFlow({
                       setRole(r.value);
                       setStep("mobile");
                     }}
-                    className={`group premium-action flex min-h-24 w-full items-center justify-between rounded-2xl border px-4 sm:px-5 py-4 text-left ${r.value === "customer" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-foreground hover:border-primary/30 hover:bg-secondary/40"}`}
+                    className={`group premium-action grid min-h-20 w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border px-4 py-4 text-left sm:min-h-24 sm:px-5 ${r.value === "customer" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-foreground hover:border-primary/30 hover:bg-secondary/40"}`}
                   >
-                    <span>
-                      <span className="block text-lg font-semibold">{r.label} Sign In</span>
+                    <span className="min-w-0">
+                      <span className="block truncate text-base font-semibold sm:text-lg">{r.label} Sign In</span>
                       <span className={`mt-1 block text-xs ${r.value === "customer" ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{r.blurb}</span>
                     </span>
-                    <span className={`inline-flex h-10 w-10 items-center justify-center rounded-full transition-transform group-hover:translate-x-1 ${r.value === "customer" ? "bg-primary-foreground/10" : "bg-secondary"}`}>
+                    <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-transform group-hover:translate-x-1 ${r.value === "customer" ? "bg-primary-foreground/10" : "bg-secondary"}`}>
                       <ArrowLeft className="h-4 w-4 rotate-180" aria-hidden="true" />
                     </span>
                   </button>
+
                 ))}
               </div>
             </div>
