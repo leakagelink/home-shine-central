@@ -141,11 +141,12 @@ function AdminDashboard() {
             ["Revenue", rupees(stats?.revenuePaise ?? 0)],
             ["Partners", stats?.partners ?? 0],
           ].map(([label, value]) => (
-             <div key={String(label)} className="surface stagger-item border-t-2 border-primary p-4">
-              <p className="text-[0.68rem] uppercase tracking-widest text-muted-foreground">
+             <div key={String(label)} className="surface stagger-item min-w-0 border-t-2 border-primary p-3 sm:p-4">
+              <p className="truncate text-[0.65rem] uppercase tracking-widest text-muted-foreground sm:text-[0.68rem]">
                 {label}
               </p>
-               <p className="mt-2 text-2xl font-semibold">{value}</p>
+               <p className="mt-2 break-words text-xl font-semibold sm:text-2xl">{value}</p>
+
             </div>
           ))}
         </section>
