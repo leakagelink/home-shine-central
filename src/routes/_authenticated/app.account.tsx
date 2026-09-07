@@ -66,7 +66,7 @@ function AccountPage() {
                 key={a.id}
                 className="flex items-start justify-between gap-3 rounded-xl border border-border p-3"
               >
-                <span>
+                <span className="min-w-0 break-words">
                   <span className="block font-semibold">{a.label ?? "Address"}</span>
                   <span className="text-muted-foreground">
                     {[a.house_no, a.building, a.street, a.area, a.city, a.pincode]
@@ -77,6 +77,7 @@ function AccountPage() {
                 <button
                   type="button"
                   aria-label="Delete address"
+                  className="shrink-0"
                   onClick={async () => {
                     await supabase.from("addresses").delete().eq("id", a.id);
                     queryClient.invalidateQueries({ queryKey: ["addresses"] });

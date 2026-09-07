@@ -55,7 +55,7 @@ function Dashboard() {
             params={{ id: active[0]!.id }}
             className="surface mt-6 flex animate-rise items-center justify-between gap-3 border-l-4 border-primary p-4"
           >
-            <div>
+            <div className="min-w-0">
               <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-primary">
                 {STATUS_LABELS[active[0]!.status] ?? active[0]!.status}
               </p>
@@ -64,7 +64,7 @@ function Dashboard() {
                 {shortDate(active[0]!.scheduled_date)} · {rupees(active[0]!.total_paise)}
               </p>
             </div>
-            <ArrowRight className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+            <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
           </Link>
         )}
 
