@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AdminLoginRouteImport } from './routes/admin-login'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RefundsRouteImport } from './routes/refunds'
 import { Route as SetupRouteImport } from './routes/setup'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
@@ -44,6 +45,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundsRoute = RefundsRouteImport.update({
+  id: '/refunds',
+  path: '/refunds',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SetupRoute = SetupRouteImport.update({
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin-login': typeof AdminLoginRoute
   '/privacy': typeof PrivacyRoute
+  '/refunds': typeof RefundsRoute
   '/setup': typeof SetupRoute
   '/terms': typeof TermsRoute
   '/app/account': typeof AuthenticatedAppAccountRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin-login': typeof AdminLoginRoute
   '/privacy': typeof PrivacyRoute
+  '/refunds': typeof RefundsRoute
   '/setup': typeof SetupRoute
   '/terms': typeof TermsRoute
   '/app/account': typeof AuthenticatedAppAccountRoute
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/admin-login': typeof AdminLoginRoute
   '/privacy': typeof PrivacyRoute
+  '/refunds': typeof RefundsRoute
   '/setup': typeof SetupRoute
   '/terms': typeof TermsRoute
   '/_authenticated/app/account': typeof AuthenticatedAppAccountRoute
@@ -180,6 +189,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin-login'
     | '/privacy'
+    | '/refunds'
     | '/setup'
     | '/terms'
     | '/app/account'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin-login'
     | '/privacy'
+    | '/refunds'
     | '/setup'
     | '/terms'
     | '/app/account'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/admin-login'
     | '/privacy'
+    | '/refunds'
     | '/setup'
     | '/terms'
     | '/_authenticated/app/account'
@@ -237,6 +249,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   PrivacyRoute: typeof PrivacyRoute
+  RefundsRoute: typeof RefundsRoute
   SetupRoute: typeof SetupRoute
   TermsRoute: typeof TermsRoute
   ApiPublicCronRecurringRoute: typeof ApiPublicCronRecurringRoute
@@ -270,6 +283,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refunds': {
+      id: '/refunds'
+      path: '/refunds'
+      fullPath: '/refunds'
+      preLoaderRoute: typeof RefundsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/setup': {
@@ -400,6 +420,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   PrivacyRoute: PrivacyRoute,
+  RefundsRoute: RefundsRoute,
   SetupRoute: SetupRoute,
   TermsRoute: TermsRoute,
   ApiPublicCronRecurringRoute: ApiPublicCronRecurringRoute,
