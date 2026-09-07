@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AdminLoginRouteImport } from './routes/admin-login'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SetupRouteImport } from './routes/setup'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppAccountRouteImport } from './routes/_authenticated/app.account'
@@ -48,6 +49,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const SetupRoute = SetupRouteImport.update({
   id: '/setup',
   path: '/setup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/admin-login': typeof AdminLoginRoute
   '/privacy': typeof PrivacyRoute
   '/setup': typeof SetupRoute
+  '/terms': typeof TermsRoute
   '/app/account': typeof AuthenticatedAppAccountRoute
   '/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/app/notifications': typeof AuthenticatedAppNotificationsRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/admin-login': typeof AdminLoginRoute
   '/privacy': typeof PrivacyRoute
   '/setup': typeof SetupRoute
+  '/terms': typeof TermsRoute
   '/app/account': typeof AuthenticatedAppAccountRoute
   '/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/app/notifications': typeof AuthenticatedAppNotificationsRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/admin-login': typeof AdminLoginRoute
   '/privacy': typeof PrivacyRoute
   '/setup': typeof SetupRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/app/account': typeof AuthenticatedAppAccountRoute
   '/_authenticated/app/checkout': typeof AuthenticatedAppCheckoutRoute
   '/_authenticated/app/notifications': typeof AuthenticatedAppNotificationsRoute
@@ -172,6 +181,7 @@ export interface FileRouteTypes {
     | '/admin-login'
     | '/privacy'
     | '/setup'
+    | '/terms'
     | '/app/account'
     | '/app/checkout'
     | '/app/notifications'
@@ -189,6 +199,7 @@ export interface FileRouteTypes {
     | '/admin-login'
     | '/privacy'
     | '/setup'
+    | '/terms'
     | '/app/account'
     | '/app/checkout'
     | '/app/notifications'
@@ -207,6 +218,7 @@ export interface FileRouteTypes {
     | '/admin-login'
     | '/privacy'
     | '/setup'
+    | '/terms'
     | '/_authenticated/app/account'
     | '/_authenticated/app/checkout'
     | '/_authenticated/app/notifications'
@@ -226,6 +238,7 @@ export interface RootRouteChildren {
   AdminLoginRoute: typeof AdminLoginRoute
   PrivacyRoute: typeof PrivacyRoute
   SetupRoute: typeof SetupRoute
+  TermsRoute: typeof TermsRoute
   ApiPublicCronRecurringRoute: typeof ApiPublicCronRecurringRoute
 }
 
@@ -264,6 +277,13 @@ declare module '@tanstack/react-router' {
       path: '/setup'
       fullPath: '/setup'
       preLoaderRoute: typeof SetupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
@@ -381,6 +401,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminLoginRoute: AdminLoginRoute,
   PrivacyRoute: PrivacyRoute,
   SetupRoute: SetupRoute,
+  TermsRoute: TermsRoute,
   ApiPublicCronRecurringRoute: ApiPublicCronRecurringRoute,
 }
 export const routeTree = rootRouteImport
