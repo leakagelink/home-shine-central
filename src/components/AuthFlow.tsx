@@ -135,14 +135,15 @@ export function AuthFlow({
             </span>
             <span className="text-lg font-semibold text-foreground">SqueakClean</span>
           </div>
-          <h1 className="mt-8 text-[3.25rem] leading-[0.95] text-foreground sm:text-6xl">
+          <h1 className="mt-6 text-[clamp(2.25rem,11vw,3.25rem)] leading-[1.02] text-foreground sm:mt-8 sm:text-6xl">
             Pristine spaces,
             <br />
             <em className="text-primary">effortless living.</em>
           </h1>
-          <p className="mt-5 max-w-sm text-base leading-relaxed text-muted-foreground">
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-base">
             Premium home care with verified local experts, fixed prices and live updates.
           </p>
+
         </header>
 
         <section className="mt-8 animate-rise rounded-2xl border border-border bg-card p-5 shadow-sheet">
